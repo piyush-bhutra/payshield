@@ -82,13 +82,13 @@ def test_training_modes_run(tmp_path):
     rows += [(f"l{i}{src}", t, "VM-SBIINB", "legit", "None", src) for i, t in enumerate(legit) for src in sources]
     df = pd.DataFrame(rows, columns=["id", "text", "sender", "label", "scam_type", "source"]).assign(tags="")
     df.to_csv(tmp_path / "m.csv", index=False)
-    df.head(4).to_csv(tmp_path / "adv.csv", index=False)
+    df.head(4).assign(notes="human-only notes").to_csv(tmp_path / "adv.csv", index=False)
     model = tmp_path / "model.joblib"
     common = ["--data", str(tmp_path / "m.csv"), "--model-out", str(model), "--adversarial", str(tmp_path / "adv.csv")]
 
     held_out = train.main(common + ["--train-sources", "claude,gemini", "--test-source", "gpt"])
     assert set(held_out["test"]["all"]) == {"rules", "ML", "hybrid M+H", "hybrid High"}
-    assert "adversarial" in held_out
+    assert "adversarial" not in held_out  # experiments never see the adversarial set
     assert not model.exists()
 
     full = train.main(common + ["--all"])

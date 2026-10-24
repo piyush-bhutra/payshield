@@ -9,8 +9,8 @@ Three modes:
   python -m backend.app.ml.train --all
       Retrain on every row and save (the final demo model).
 
-Every evaluation prints metrics overall and per source, plus the adversarial set
-(data/adversarial_tests.csv, never trained on) when that file exists. Each set is scored four ways:
+Every evaluation prints metrics overall and per source. The adversarial set
+(data/adversarial_tests.csv) is never trained on and is scored only with --all. Each set is scored four ways:
   rules        rule_score >= 35
   ML           ml_probability >= 0.5
   hybrid M+H   final score >= 35  (Medium or High counts as flagged)
@@ -164,12 +164,12 @@ def main(argv: list[str] | None = None) -> dict:
         results["validation"] = report("Validation split", model, val)
         results["test"] = report("Test split", model, test)
 
-    if Path(args.adversarial).exists():
+    # The adversarial set is a held-out stress test: only the final --all model is scored on it,
+    # never experiments, and only text + sender are used (the notes column is for humans).
+    if args.all and Path(args.adversarial).exists():
         adv = pd.read_csv(args.adversarial, dtype=str, keep_default_na=False)
-        adv = adv.assign(source=adv["source"] if "source" in adv else "adversarial",
-                         sender=adv["sender"] if "sender" in adv else "")
-        results["adversarial"] = report("Adversarial set", model, adv)
-    else:
+        results["adversarial"] = report("Adversarial set", model, adv[["text", "sender", "label", "source"]])
+    elif args.all:
         print(f"\n(No adversarial set at {args.adversarial}; skipped.)")
 
     if save:
