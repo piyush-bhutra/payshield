@@ -46,7 +46,7 @@ export const AdviceChecklist: React.FC<AdviceChecklistProps> = ({
       badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
       icon: CheckCircle2,
       title: "Standard Verification Guidelines",
-      subtext: "Few risk signals were detected. Stay alert.",
+      subtext: "No warning signs were found in this message. Still verify through the official app or number.",
     },
   }[riskLabel] || {
     border: "border-[#1E324D]",

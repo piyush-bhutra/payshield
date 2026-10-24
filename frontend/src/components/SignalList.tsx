@@ -18,7 +18,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
           No suspicious risk signals detected
         </p>
         <p className="text-xs text-slate-400 max-w-md">
-          None of our phishing heuristics or known scam patterns triggered on this input. Remember to stay cautious with unexpected requests.
+          None of our phishing detection rules or known scam patterns triggered on this input. Remember to stay cautious with unexpected requests.
         </p>
       </div>
     );

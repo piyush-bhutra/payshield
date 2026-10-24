@@ -15,7 +15,7 @@ export const HowItWorks: React.FC = () => {
     {
       step: "02",
       title: "Analyse",
-      desc: "PayShield tests against verified phishing rules, suspicious link heuristics, and model weights.",
+      desc: "PayShield tests against verified phishing rules, suspicious link checks, and model weights.",
       icon: Cpu,
       color: "text-[#38BDF8]",
       border: "border-[#38BDF8]/30",

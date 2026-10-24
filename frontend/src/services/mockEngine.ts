@@ -393,7 +393,11 @@ export function mockAnalyzeMessage(req: MessageRequest): MessageResponse {
     advice.push("Review carefully before you act.");
     advice.push("Verify through the official app or the number on your card, not the contact details in this message.");
   } else {
-    advice.push("Low risk signals found, but this is not a guarantee.");
+    if (signals.length === 0) {
+      advice.push("No warning signs were found in this message. Still verify through the official app or number.");
+    } else {
+      advice.push("Low risk signals found, but this is not a guarantee.");
+    }
     advice.push("When in doubt, don't pay or share.");
   }
 

@@ -71,9 +71,9 @@ export const MessageForm: React.FC<MessageFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Sample Loader and Clear Controls Row */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 pb-1">
-        <div className="flex items-center space-x-2">
-          <label htmlFor="sample-dropdown" className="text-xs font-medium text-slate-300 flex items-center">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-1">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+          <label htmlFor="sample-dropdown" className="text-xs font-medium text-slate-300 flex items-center flex-shrink-0">
             <FileText className="w-3.5 h-3.5 text-[#36D6D0] mr-1.5" />
             <span>Load Sample Message:</span>
           </label>
@@ -82,7 +82,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
             onChange={handleSelectSample}
             defaultValue=""
             disabled={isAnalyzing}
-            className="text-xs bg-[#0B1728] border border-[#1E324D] rounded-lg px-2.5 py-1.5 text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#36D6D0] hover:border-[#2A4468] transition-colors cursor-pointer"
+            className="w-full sm:w-auto max-w-full text-xs bg-[#0B1728] border border-[#1E324D] rounded-lg px-2.5 py-1.5 text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#36D6D0] hover:border-[#2A4468] transition-colors cursor-pointer"
           >
             <option value="" disabled>
               Select a synthetic sample...
@@ -113,7 +113,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
           type="button"
           onClick={handleClear}
           disabled={isAnalyzing || (!text && !sender)}
-          className="flex items-center space-x-1.5 text-xs text-slate-400 hover:text-slate-200 py-1 px-2.5 rounded-lg hover:bg-[#101F33] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          className="self-end sm:self-auto flex items-center space-x-1.5 text-xs text-slate-400 hover:text-slate-200 py-1 px-2.5 rounded-lg hover:bg-[#101F33] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Clear form</span>
