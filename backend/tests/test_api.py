@@ -136,3 +136,28 @@ def test_sender_digits_are_never_a_feature(with_model, a, b):
     assert ra["score"] == rb["score"]
     assert ra["ml_probability"] == rb["ml_probability"]
     assert [s["id"] for s in ra["signals"]] == [s["id"] for s in rb["signals"]]
+
+
+def test_message_pipeline_never_touches_the_network(with_model, monkeypatch):
+    """Rules + ML + fusion + advice run with every socket entry point blocked, for messages full of links.
+
+    Calls the endpoint function directly, because the test client's own event loop needs local sockets.
+    """
+    import socket
+    import urllib.request
+
+    from backend.app.schemas import MessageRequest
+
+    def blocked(*args, **kwargs):
+        raise AssertionError("network access attempted")
+
+    for name in ("socket", "create_connection", "getaddrinfo", "gethostbyname"):
+        monkeypatch.setattr(socket, name, blocked)
+    monkeypatch.setattr(urllib.request, "urlopen", blocked)
+
+    links = ["Verify now at http://192.168.10.5/login", "Claim at https://sbi-secure-kyc.top/claim",
+             "KYC update: bit.ly/abc123", "Visit www.example.com or wa.me/9000012345 today"]
+    for text in links:
+        result = main.analyze_message(MessageRequest(text=text, sender="+919800000001"))
+        assert result.breakdown.ml_weight == ML_WEIGHT  # the model really ran
+        assert result.score >= 0

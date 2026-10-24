@@ -82,13 +82,17 @@ def metrics(y_true: list[int], y_pred: list[int]) -> dict:
             "confusion": confusion_matrix(y_true, y_pred, labels=[0, 1]).tolist()}
 
 
-def score(model: Pipeline, df: pd.DataFrame) -> pd.DataFrame:
-    """Add rule score, ML probability and the fused score/label (PRD 7.3) to every row."""
+def score(model: Pipeline, df: pd.DataFrame, weights: tuple[float, float] | None = None) -> pd.DataFrame:
+    """Add rule score, ML probability and the fused score/label (PRD 7.3) to every row.
+
+    `weights` overrides the config fusion weights (used by eval/evaluate.py to reproduce v1).
+    """
     probs = model.predict_proba(features(df))[:, 1]
     rule_scores, final_scores = [], []
     for text, sender, p in zip(df["text"], df["sender"], probs):
         r = analyze_message(text, sender)
-        final, _ = fuse(r.rule_score, float(p), {s.id for s in r.signals})
+        ids = {s.id for s in r.signals}
+        final, _ = fuse(r.rule_score, float(p), ids, weights) if weights else fuse(r.rule_score, float(p), ids)
         rule_scores.append(r.rule_score)
         final_scores.append(final)
     return df.assign(y=target(df), ml_probability=probs, rule_score=rule_scores, score=final_scores,

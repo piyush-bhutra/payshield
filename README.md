@@ -56,6 +56,14 @@ python -m backend.app.ml.train --all                       # retrain on everythi
 
 Input CSVs for the validator need columns `id,text,sender,label,scam_type,tags,source`.
 
+## Evaluation
+
+```powershell
+python eval/evaluate.py
+```
+
+Regenerates `eval/results/` (metrics.json, test_table.csv/.md, two confusion-matrix PNGs) from the committed data and model. Results are summarised in [docs/evaluation.md](docs/evaluation.md).
+
 Rules, weights, keywords and advice live in `backend/app/rules/signals.json`; thresholds in `backend/app/config.py`.
 
 ## Run the tests
