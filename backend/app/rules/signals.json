@@ -1,0 +1,159 @@
+{
+  "message_signals": {
+    "credential_request": {
+      "title": "Asks for OTP, PIN or password",
+      "weight": 30,
+      "explanation": "The message asks you to share or enter a secret such as an OTP, PIN, CVV or password. Banks and UPI apps never ask for these.",
+      "tip": "Anyone asking for your OTP or PIN is trying to take money out, not put it in.",
+      "advice": ["Never share OTP, PIN, CVV or passwords with anyone."],
+      "patterns": [
+        "\\b(share|send|confirm|verify|update|provide|enter|tell|give|submit|reply with)\\b[^.\\n]{0,40}\\b(otp|pin|cvv|password|passcode|card (number|details)|aadhaa?r|pan (card|number|details)|bank details|login details|net ?banking details)\\b",
+        "\\b(otp|cvv|pin)\\b[^.\\n]{0,25}\\b(share|send|tell|reply|forward)\\b"
+      ]
+    },
+    "suspicious_link": {
+      "title": "Suspicious link",
+      "weight": 25,
+      "explanation": "The link does not look like an official website.",
+      "tip": "Banks and universities do not send shortened or look-alike links. Type the official address yourself.",
+      "advice": ["Do not click the link. Open the official app or type the official website yourself."]
+    },
+    "urgency_threat": {
+      "title": "Creates urgency",
+      "weight": 15,
+      "explanation": "The message pushes you to act fast so you do not stop and think.",
+      "tip": "Real organisations give you time. Pressure to act 'now' is a classic scam trick.",
+      "advice": ["Slow down. Do not act on a deadline set by a message."],
+      "patterns": [
+        "\\b(immediately|urgent(ly)?|asap|right now|act now|at the earliest)\\b",
+        "\\bwithin \\d+\\s?(hours?|hrs?|minutes?|mins?|days?)\\b",
+        "\\b(last|final) (warning|chance|reminder|notice)\\b",
+        "\\b(expires?|expiring|ends?) (today|tonight|soon)\\b",
+        "\\b(today itself|before midnight)\\b"
+      ]
+    },
+    "account_threat": {
+      "title": "Threatens your account",
+      "weight": 15,
+      "explanation": "The message says your account, card or KYC will be blocked or suspended to scare you into acting.",
+      "tip": "If you are worried about your account, check it in the official app, not through the message.",
+      "advice": ["Check your account status only in the official app or by calling the number on your card."],
+      "patterns": [
+        "\\bkyc\\b[^.\\n]{0,30}\\b(expir\\w*|pending|incomplete|not updated|update required|suspended|blocked)",
+        "\\b(will|shall|may) be (suspended|blocked|deactivated|closed|frozen|terminated|disabled|barred)\\b",
+        "\\b(has been|is|was) (temporarily )?(suspended|blocked|deactivated|frozen|disabled)\\b",
+        "\\bavoid (being )?(account )?(block\\w*|suspension|deactivation|closure)"
+      ]
+    },
+    "prize_bait": {
+      "title": "Prize, refund or cashback bait",
+      "weight": 15,
+      "explanation": "The message promises a prize, refund, cashback or reward you did not expect.",
+      "tip": "If you did not enter a contest or ask for a refund, the 'reward' is bait.",
+      "advice": ["Ignore unexpected prizes or refunds. Real refunds go back to your account automatically."],
+      "patterns": [
+        "\\b(you('ve| have)? won|lucky draw|lottery|jackpot|prize money|winner)\\b",
+        "\\b(unclaimed|pending|claim( your)?)\\b[^.\\n]{0,25}\\b(refund|cashback|reward|prize|bonus)",
+        "\\breward points?\\b[^.\\n]{0,30}\\bexpir\\w*",
+        "\\b(income tax|it) refund\\b",
+        "\\b(get|win|earn) (an? )?(assured )?cashback\\b"
+      ]
+    },
+    "payment_pressure": {
+      "title": "Pay to receive money",
+      "weight": 20,
+      "explanation": "The message asks you to pay, approve a request or enter your PIN in order to 'receive' money. You never need to pay or enter a PIN to receive money.",
+      "tip": "Entering your UPI PIN always sends money out. It is never needed to receive money.",
+      "advice": ["Do not approve collect requests or enter your UPI PIN to receive money."],
+      "patterns": [
+        "\\b(send|pay|transfer)\\b[^.\\n]{0,20}(rs\\.?|inr|₹)\\s?[\\d,]+[^.\\n]{0,40}\\b(receive|get|release|unlock|activate|claim)\\b",
+        "\\b(approve|accept)\\b[^.\\n]{0,40}\\b(collect request|payment request|upi request)\\b",
+        "\\b(enter|use) (your )?(upi )?pin\\b[^.\\n]{0,30}\\b(receive|get|credit)",
+        "\\b(processing|registration|release|clearance|verification|delivery|handling) (fee|charge)s?\\b",
+        "\\bscan\\b[^.\\n]{0,20}\\bqr\\b[^.\\n]{0,30}\\b(receive|get)\\b"
+      ]
+    },
+    "sender_mismatch": {
+      "title": "Sender does not match",
+      "weight": 20,
+      "explanation": "The message claims to be from an organisation, but it was sent from a personal number or an unrelated address.",
+      "tip": "Banks send SMS from short codes like 'VM-SBIINB', not personal mobile numbers or Gmail addresses.",
+      "advice": ["Check the sender. Official messages do not come from personal numbers or free email."]
+    },
+    "brand_impersonation": {
+      "title": "Uses a trusted name",
+      "weight": 10,
+      "explanation": "The message uses the name of a bank, payment app, university or government body together with other warning signs.",
+      "tip": "Scammers borrow trusted names. The name alone proves nothing.",
+      "advice": ["Contact the organisation through its official app or website, not through this message."]
+    },
+    "generic_greeting": {
+      "title": "Generic greeting",
+      "weight": 5,
+      "explanation": "The message starts with 'Dear customer' or similar and asks you to act. Your real bank knows your name.",
+      "tip": "A generic greeting plus a link or request is a common phishing pattern.",
+      "advice": [],
+      "patterns": [
+        "\\bdear (customer|user|sir|madam|sir/madam|account ?holder|valued customer|member|client|beneficiary)\\b"
+      ]
+    }
+  },
+
+  "link_checks": {
+    "shortener": "It is a shortened link, which hides the real destination.",
+    "raw_ip": "It points to a raw IP address instead of a website name.",
+    "not_https": "It does not use a secure (https) connection.",
+    "odd_tld": "It ends in an unusual domain ending often used by scam sites.",
+    "lookalike": "The website name looks like an imitation of a real one (extra hyphens or words like 'kyc' or 'login')."
+  },
+  "shorteners": ["bit.ly", "tinyurl.com", "cutt.ly", "t.co", "goo.gl", "is.gd", "ow.ly", "rb.gy", "shorturl.at", "tiny.cc", "t.ly"],
+  "suspicious_tlds": ["xyz", "top", "click", "link", "live", "buzz", "online", "site", "icu", "rest", "loan", "win", "work", "tk", "ml", "ga", "gq", "cf"],
+  "common_tlds": ["com", "in", "org", "net", "co", "ly", "io", "info", "me", "gov", "edu", "ac", "app", "at", "cc", "gd", "biz", "shop", "store"],
+  "lookalike_words": ["login", "secure", "verify", "kyc", "update", "reward", "bonus", "account", "bank", "sbi", "hdfc", "icici", "paytm", "phonepe", "vit"],
+
+  "legit_patterns": [
+    "\\b(do not|don't|dont|never|not to) share\\b",
+    "\\bvalid (for|till|upto|up to) \\d+\\s?(min|mins|minutes|hrs?|hours?)\\b"
+  ],
+  "legit_adjustment": -10,
+
+  "brands": [
+    {"name": "SBI", "pattern": "\\bsbi\\b|\\bstate bank\\b", "sender_hints": ["sbi"]},
+    {"name": "HDFC Bank", "pattern": "\\bhdfc\\b", "sender_hints": ["hdfc"]},
+    {"name": "ICICI Bank", "pattern": "\\bicici\\b", "sender_hints": ["icici"]},
+    {"name": "Axis Bank", "pattern": "\\baxis bank\\b", "sender_hints": ["axis"]},
+    {"name": "Paytm", "pattern": "\\bpaytm\\b", "sender_hints": ["paytm"]},
+    {"name": "PhonePe", "pattern": "\\bphone ?pe\\b", "sender_hints": ["phonepe", "phnpe"]},
+    {"name": "Google Pay", "pattern": "\\bgoogle ?pay\\b|\\bgpay\\b", "sender_hints": ["google", "gpay"]},
+    {"name": "VIT", "pattern": "\\bvit\\b|\\bvellore institute\\b", "sender_hints": ["vit"]},
+    {"name": "Income Tax", "pattern": "\\bincome ?tax\\b|\\bitr\\b", "sender_hints": ["incometax", "itdept", "gov.in"]},
+    {"name": "RBI", "pattern": "\\brbi\\b|\\breserve bank\\b", "sender_hints": ["rbi"]},
+    {"name": "NPCI", "pattern": "\\bnpci\\b", "sender_hints": ["npci"]},
+    {"name": "Amazon", "pattern": "\\bamazon\\b", "sender_hints": ["amazon", "amzn"]}
+  ],
+
+  "scam_types": [
+    {"type": "Fake KYC", "requires": ["account_threat"], "text": "\\bkyc\\b"},
+    {"type": "Account suspension", "requires": ["account_threat"]},
+    {"type": "Refund/cashback", "requires": ["prize_bait"], "text": "refund|cashback|reward points?"},
+    {"type": "Lottery/prize", "requires": ["prize_bait"]},
+    {"type": "Collect-request scam", "requires": ["payment_pressure"]},
+    {"type": "OTP theft", "requires": ["credential_request"]}
+  ],
+
+  "advice_by_level": {
+    "Low": [
+      "Low risk signals found, but this is not a guarantee.",
+      "When in doubt, don't pay or share."
+    ],
+    "Medium": [
+      "Review carefully before you act.",
+      "Verify through the official app or the number on your card, not the contact details in this message."
+    ],
+    "High": [
+      "Do not reply, click, pay or share anything.",
+      "If you already shared details or paid, call your bank immediately.",
+      "Report at cybercrime.gov.in or call 1930."
+    ]
+  }
+}

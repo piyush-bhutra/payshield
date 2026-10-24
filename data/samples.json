@@ -1,0 +1,21 @@
+{
+  "_note": "All samples are synthetic and fictitious: fake numbers, made-up links, no real people or accounts. m1, m2, m3 are the landing-page example chips (fake KYC, real bank alert, tricky case).",
+  "messages": [
+    {"id": "m1", "label": "scam", "text": "Dear customer, your SBI KYC expires today. Click bit.ly/sbi-kyc-upd now to avoid account block.", "sender": "+919800000001"},
+    {"id": "m2", "label": "legit", "text": "Rs 1,250.00 debited from A/c XX4821 on 24-10-26 to UPI merchant SWIGGY. Avl bal Rs 18,430.55. Not you? Call 1800-000-0000. -SBI", "sender": "VM-SBIINB"},
+    {"id": "m3", "label": "scam", "text": "Your HDFC Bank reward points expire soon. Redeem them at hdfc-rewards-points.in before 31 Oct.", "sender": "AD-HDFCBK"},
+    {"id": "m4", "label": "legit", "text": "482913 is your OTP for login to HDFC Bank NetBanking. Valid for 5 minutes. Do not share this OTP with anyone.", "sender": "VM-HDFCBK"},
+    {"id": "m5", "label": "scam", "text": "Congratulations! You have won Rs 25,00,000 in the Paytm Lucky Draw. Pay a processing fee of Rs 999 at paytm-lucky-winner.xyz to claim.", "sender": "winner.desk@gmail.com"},
+    {"id": "m6", "label": "scam", "text": "VIT Alert: Your student account will be suspended within 24 hours. Verify your password at http://vit-ac-in-login.com immediately.", "sender": "vit.helpdesk@outlook.com"},
+    {"id": "m7", "label": "scam", "text": "Hi, I am sending you Rs 5000 for the OLX item. Approve the collect request on PhonePe and enter UPI PIN to receive the money.", "sender": "+919800000002"},
+    {"id": "m8", "label": "legit", "text": "Your Amazon order #402-0000000 has been delivered. Thank you for shopping with us.", "sender": "AX-AMAZON"},
+    {"id": "m9", "label": "legit", "text": "VIT: Mid-term exam timetable for the Winter semester is now available on VTOP. -Academics Office", "sender": "VM-VITUNI"}
+  ],
+  "transactions": [
+    {"id": "t1", "label": "scam", "amount": 49999, "payee": "Rahul Traders", "is_new_payee": true, "hour": 2, "type": "collect_request", "recent_txn_count_1h": 3},
+    {"id": "t2", "label": "legit", "amount": 250, "payee": "Campus Canteen", "is_new_payee": false, "hour": 13, "type": "pay", "recent_txn_count_1h": 1},
+    {"id": "t3", "label": "scam", "amount": 30000, "payee": "Fast Refund Desk", "is_new_payee": true, "hour": 23, "type": "transfer", "recent_txn_count_1h": 1},
+    {"id": "t4", "label": "legit", "amount": 1200, "payee": "Mom", "is_new_payee": false, "hour": 19, "type": "transfer", "recent_txn_count_1h": 0},
+    {"id": "t5", "label": "scam", "amount": 9999, "payee": "Quick Loan Help", "is_new_payee": true, "hour": 3, "type": "pay", "recent_txn_count_1h": 4}
+  ]
+}

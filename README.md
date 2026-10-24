@@ -33,7 +33,15 @@ python -m pip install -r requirements.txt
 python -m uvicorn backend.app.main:app --reload --port 8000
 ```
 
-Check it: http://localhost:8000/api/health
+Check it: http://localhost:8000/api/health (interactive docs: http://localhost:8000/docs)
+
+Endpoints (contract: [PRD section 8](docs/PRD.md)):
+
+- `GET /api/health`
+- `POST /api/analyze/message` with `{"text": "...", "sender": "..."}`
+- `GET /api/samples`
+
+Rules, weights, keywords and advice live in `backend/app/rules/signals.json`; thresholds in `backend/app/config.py`.
 
 ## Run the tests
 
