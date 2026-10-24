@@ -39,9 +39,21 @@ def test_health():
     assert isinstance(body["model_loaded"], bool)
 
 
-def test_cors_allows_frontend_origin():
-    r = client.get("/api/health", headers={"Origin": "http://localhost:5173"})
-    assert r.headers["access-control-allow-origin"] == "http://localhost:5173"
+@pytest.mark.parametrize("origin", ["http://localhost:5173", "http://localhost:3000",
+                                    "http://127.0.0.1:5173", "http://127.0.0.1:3000"])
+def test_cors_allows_frontend_origins(origin):
+    r = client.get("/api/health", headers={"Origin": origin})
+    assert r.headers["access-control-allow-origin"] == origin
+    preflight = client.options("/api/analyze/message", headers={
+        "Origin": origin, "Access-Control-Request-Method": "POST", "Access-Control-Request-Headers": "content-type"})
+    assert preflight.status_code == 200
+
+
+def test_cors_refuses_other_origins():
+    preflight = client.options("/api/analyze/message", headers={
+        "Origin": "http://evil.example", "Access-Control-Request-Method": "POST"})
+    assert preflight.status_code == 400
+    assert "access-control-allow-origin" not in preflight.headers
 
 
 def test_analyze_message_contract():

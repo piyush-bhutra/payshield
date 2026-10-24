@@ -222,7 +222,7 @@ Score is the sum of weights, capped at 100. Same Low / Medium / High thresholds.
 
 ## 8. API specification
 
-Base URL `http://localhost:8000`. JSON. CORS allows `http://localhost:5173` and `http://localhost:3000`.
+Base URL `http://localhost:8000`. JSON. CORS allows `http://localhost:5173`, `http://localhost:3000`, `http://127.0.0.1:5173` and `http://127.0.0.1:3000`.
 
 ### POST `/api/analyze/message`
 ```json
