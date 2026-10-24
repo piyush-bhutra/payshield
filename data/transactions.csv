@@ -1,0 +1,203 @@
+id,amount,payee,is_new_payee,hour,type,recent_txn_count_1h,label,anomaly
+t001,300,Laundry Service,False,9,pay,0,legit,
+t002,58,Book Depot,False,10,pay,0,legit,
+t003,1740,New Shop 942,True,22,pay,2,legit,
+t004,2722,New Shop 586,True,12,pay,2,legit,
+t005,2010,New Shop 935,True,9,collect_request,1,legit,
+t006,1706,Cab Ride,False,14,pay,1,legit,
+t007,2216,Roommate Arjun,False,7,pay,2,legit,
+t008,1684,Book Depot,False,14,pay,1,legit,
+t009,122,Mobile Recharge,False,15,pay,0,legit,
+t010,1736,Juice Corner,False,14,pay,0,legit,
+t011,1199,Book Depot,False,22,pay,2,legit,
+t012,197,Mobile Recharge,False,21,pay,2,legit,
+t013,1641,Stationery Store,False,16,pay,2,legit,
+t014,147,Mom,False,13,transfer,1,legit,
+t015,2653,Book Depot,False,11,pay,0,legit,
+t016,12106,Job Offer Registration,True,13,collect_request,2,scam,collect_new
+t017,745,Metro Card Recharge,False,7,pay,2,legit,
+t018,23991,Lucky Draw Office,True,8,pay,0,scam,new_payee_large
+t019,2281,Dad,False,18,pay,1,legit,
+t020,2161,Roommate Arjun,False,15,pay,1,legit,
+t021,2061,Cab Ride,False,21,transfer,0,legit,
+t022,406,Hostel Mess,False,20,pay,0,legit,
+t023,1096,Mobile Recharge,False,20,transfer,0,legit,
+t024,2155,Book Depot,False,14,pay,0,legit,
+t025,20789,KYC Update Cell,True,15,transfer,0,scam,new_payee_large
+t026,31586,Metro Card Recharge,False,10,transfer,1,scam,large_amount
+t027,43833,Campus Canteen,False,9,transfer,1,scam,large_amount
+t028,2875,Dad,False,10,transfer,1,legit,
+t029,44226,Dad,False,7,transfer,1,scam,large_amount
+t030,16695,Quick Loan Help,True,16,collect_request,2,scam,collect_new
+t031,1308,Dad,False,17,pay,1,legit,
+t032,2202,New Shop 538,True,18,pay,1,legit,
+t033,1200,Cab Ride,False,19,transfer,1,legit,
+t034,1964,Book Depot,False,15,transfer,1,legit,
+t035,5865,Juice Corner,False,4,pay,1,scam,odd_hours
+t036,996,Roommate Arjun,False,10,collect_request,5,scam,burst
+t037,467,Mom,False,13,pay,0,legit,
+t038,775,Campus Canteen,False,15,transfer,0,legit,
+t039,431,Book Depot,False,10,pay,0,legit,
+t040,2099,Dad,False,7,pay,0,legit,
+t041,1108,New Shop 946,True,11,pay,0,legit,
+t042,76938,Stationery Store,False,14,transfer,1,scam,large_amount
+t043,19999,Prize Desk 24x7,True,9,pay,0,scam,limit_edge
+t044,2572,Roommate Arjun,False,10,transfer,0,legit,
+t045,1237,Laundry Service,False,20,pay,1,legit,
+t046,1959,Cab Ride,False,10,pay,0,legit,
+t047,438,Hostel Mess,False,19,pay,1,legit,
+t048,2766,Mom,False,18,pay,2,legit,
+t049,1270,Mom,False,14,pay,0,legit,
+t050,184,Stationery Store,False,22,pay,0,legit,
+t051,2514,Mom,False,11,pay,0,legit,
+t052,84823,Hostel Mess,False,19,transfer,0,scam,large_amount
+t053,2168,Laundry Service,False,16,collect_request,1,legit,
+t054,49999,Lucky Draw Office,True,22,pay,0,scam,limit_edge
+t055,14674,Quick Loan Help,True,18,pay,2,scam,new_payee_large
+t056,1807,Laundry Service,False,10,pay,1,legit,
+t057,5705,Campus Canteen,False,1,transfer,0,scam,odd_hours
+t058,2402,Roommate Arjun,False,22,pay,0,legit,
+t059,1890,Juice Corner,False,11,pay,2,legit,
+t060,1859,Laundry Service,False,15,transfer,0,legit,
+t061,2030,Hostel Mess,False,7,pay,0,legit,
+t062,586,Juice Corner,False,22,pay,0,legit,
+t063,1530,Stationery Store,False,10,transfer,0,legit,
+t064,2274,Hostel Mess,False,8,pay,1,legit,
+t065,2412,Mobile Recharge,False,7,transfer,1,legit,
+t066,2313,Metro Card Recharge,False,11,transfer,0,legit,
+t067,953,New Shop 891,True,16,collect_request,2,legit,
+t068,914,Hostel Mess,False,21,pay,3,scam,burst
+t069,715,Cab Ride,False,9,pay,1,legit,
+t070,9999,Prize Desk 24x7,True,19,pay,1,scam,limit_edge
+t071,311,Cab Ride,False,14,transfer,1,legit,
+t072,328,New Shop 807,True,11,pay,1,legit,
+t073,183,Roommate Arjun,False,13,pay,1,legit,
+t074,178,New Shop 979,True,22,pay,1,legit,
+t075,15811,Prize Desk 24x7,True,21,collect_request,1,scam,collect_new
+t076,2568,Juice Corner,False,7,transfer,1,legit,
+t077,1212,Campus Canteen,False,14,pay,0,legit,
+t078,2070,Stationery Store,False,10,transfer,0,legit,
+t079,1279,Mom,False,8,pay,1,legit,
+t080,994,New Shop 385,True,22,pay,0,legit,
+t081,2955,Dad,False,15,pay,0,legit,
+t082,19999,Prize Desk 24x7,True,8,collect_request,1,scam,limit_edge
+t083,940,Hostel Mess,False,21,transfer,1,legit,
+t084,19999,Lucky Draw Office,True,15,pay,0,scam,limit_edge
+t085,1923,New Shop 783,True,17,collect_request,2,legit,
+t086,1132,Roommate Arjun,False,17,transfer,0,legit,
+t087,24,Cab Ride,False,21,pay,0,legit,
+t088,2192,Campus Canteen,False,17,pay,0,legit,
+t089,1612,Roommate Arjun,False,19,transfer,1,legit,
+t090,2274,Roommate Arjun,False,18,transfer,0,legit,
+t091,243,Juice Corner,False,16,pay,0,legit,
+t092,1661,Book Depot,False,9,pay,1,legit,
+t093,579,Hostel Mess,False,15,transfer,2,legit,
+t094,1576,Dad,False,21,pay,0,legit,
+t095,19999,Prize Desk 24x7,True,8,pay,1,scam,limit_edge
+t096,2731,Mobile Recharge,False,22,pay,0,legit,
+t097,83910,Book Depot,False,15,transfer,1,scam,large_amount
+t098,2392,Mobile Recharge,False,8,transfer,0,legit,
+t099,1572,New Shop 435,True,13,pay,0,legit,
+t100,1685,Roommate Arjun,False,11,transfer,5,scam,burst
+t101,1449,Hostel Mess,False,14,pay,0,legit,
+t102,2351,Dad,False,21,pay,1,legit,
+t103,1107,Campus Canteen,False,10,pay,0,legit,
+t104,1498,Stationery Store,False,16,pay,1,legit,
+t105,1339,Book Depot,False,21,pay,0,legit,
+t106,1387,New Shop 788,True,3,pay,1,scam,odd_hours
+t107,261,Mom,False,9,transfer,2,legit,
+t108,621,Dad,False,12,pay,4,scam,burst
+t109,13212,Fast Refund Desk,True,18,pay,0,scam,new_payee_large
+t110,2205,Metro Card Recharge,False,17,pay,2,legit,
+t111,2353,New Shop 352,True,8,pay,0,legit,
+t112,17605,Unknown UPI user4821,True,15,pay,0,scam,new_payee_large
+t113,2279,New Shop 730,True,20,transfer,5,scam,burst
+t114,2417,Metro Card Recharge,False,22,collect_request,0,legit,
+t115,4749,Prize Desk 24x7,True,16,collect_request,1,scam,collect_new
+t116,2948,Mom,False,9,pay,1,legit,
+t117,3948,Laundry Service,False,17,pay,4,scam,burst
+t118,1883,Dad,False,20,pay,1,legit,
+t119,2485,Campus Canteen,False,13,transfer,1,legit,
+t120,2503,Laundry Service,False,14,transfer,0,legit,
+t121,7546,Hostel Mess,False,2,collect_request,0,scam,odd_hours
+t122,1160,Book Depot,False,14,transfer,0,legit,
+t123,1135,Dad,False,13,transfer,0,legit,
+t124,1922,Campus Canteen,False,14,transfer,0,legit,
+t125,1335,Cab Ride,False,10,transfer,0,legit,
+t126,2901,Dad,False,7,pay,1,legit,
+t127,2743,Metro Card Recharge,False,12,pay,0,legit,
+t128,2354,Laundry Service,False,19,pay,0,legit,
+t129,42,Hostel Mess,False,20,pay,1,legit,
+t130,1937,Juice Corner,False,15,collect_request,2,legit,
+t131,2846,Stationery Store,False,13,pay,0,legit,
+t132,2879,Metro Card Recharge,False,17,pay,0,legit,
+t133,2892,Dad,False,7,pay,0,legit,
+t134,878,Cab Ride,False,15,transfer,1,legit,
+t135,1699,Cab Ride,False,11,pay,1,legit,
+t136,2590,New Shop 263,True,20,pay,0,legit,
+t137,44,Roommate Arjun,False,16,transfer,2,legit,
+t138,2280,Hostel Mess,False,12,pay,0,legit,
+t139,626,Metro Card Recharge,False,11,pay,0,legit,
+t140,2376,Laundry Service,False,7,collect_request,1,legit,
+t141,233,Roommate Arjun,False,14,pay,1,legit,
+t142,2358,Laundry Service,False,22,pay,0,legit,
+t143,2079,Juice Corner,False,12,pay,1,legit,
+t144,89726,Cab Ride,False,12,transfer,2,scam,large_amount
+t145,426,Mom,False,13,pay,0,legit,
+t146,1957,New Shop 822,True,19,pay,1,legit,
+t147,2429,Juice Corner,False,14,pay,0,legit,
+t148,3647,Prize Desk 24x7,True,10,collect_request,2,scam,collect_new
+t149,21,Dad,False,16,pay,1,legit,
+t150,304,Dad,False,18,pay,0,legit,
+t151,241,Cab Ride,False,10,pay,1,legit,
+t152,1101,Juice Corner,False,22,pay,2,legit,
+t153,402,Mom,False,16,pay,0,legit,
+t154,444,Stationery Store,False,15,pay,0,legit,
+t155,2253,New Shop 189,True,20,pay,0,legit,
+t156,2343,Mobile Recharge,False,17,pay,0,legit,
+t157,998,Laundry Service,False,19,pay,1,legit,
+t158,2390,Campus Canteen,False,16,pay,2,legit,
+t159,1092,New Shop 265,True,21,pay,0,legit,
+t160,2620,New Shop 275,True,14,pay,0,legit,
+t161,1022,New Shop 586,True,9,pay,2,legit,
+t162,1135,Juice Corner,False,22,pay,1,legit,
+t163,4895,Metro Card Recharge,False,3,pay,0,scam,odd_hours
+t164,2723,Book Depot,False,11,pay,0,legit,
+t165,1692,Roommate Arjun,False,19,pay,1,legit,
+t166,887,Juice Corner,False,13,transfer,0,legit,
+t167,2017,Mom,False,18,transfer,0,legit,
+t168,2242,Book Depot,False,20,pay,1,legit,
+t169,1549,Book Depot,False,21,pay,0,legit,
+t170,2728,Mom,False,20,pay,0,legit,
+t171,49999,Easy Cashback,True,14,transfer,1,scam,limit_edge
+t172,3539,Hostel Mess,False,4,transfer,0,scam,odd_hours
+t173,1903,Mobile Recharge,False,11,pay,1,legit,
+t174,2993,Dad,False,1,pay,0,scam,odd_hours
+t175,643,Book Depot,False,8,pay,2,legit,
+t176,2325,Dad,False,9,collect_request,0,legit,
+t177,1340,Mom,False,9,pay,0,legit,
+t178,6607,Easy Cashback,True,15,pay,2,scam,new_payee_large
+t179,90,Hostel Mess,False,16,pay,1,legit,
+t180,2923,Metro Card Recharge,False,7,pay,1,legit,
+t181,2972,New Shop 217,True,15,transfer,0,legit,
+t182,9330,Rahul Traders,True,17,transfer,0,scam,new_payee_large
+t183,2641,Mobile Recharge,False,14,pay,1,legit,
+t184,2572,Mobile Recharge,False,19,pay,2,legit,
+t185,13265,KYC Update Cell,True,10,collect_request,0,scam,collect_new
+t186,402,New Shop 871,True,14,pay,0,legit,
+t187,958,Campus Canteen,False,17,pay,0,legit,
+t188,667,Book Depot,False,7,collect_request,2,legit,
+t189,2245,Metro Card Recharge,False,21,transfer,2,legit,
+t190,1000,Mobile Recharge,False,12,pay,0,legit,
+t191,2966,Juice Corner,False,20,transfer,1,legit,
+t192,2269,Stationery Store,False,13,pay,4,scam,burst
+t193,2962,Mobile Recharge,False,19,pay,0,legit,
+t194,363,Cab Ride,False,20,pay,0,legit,
+t195,1662,Campus Canteen,False,12,pay,2,legit,
+t196,1588,Mobile Recharge,False,11,transfer,0,legit,
+t197,514,Mobile Recharge,False,13,pay,1,legit,
+t198,1126,Laundry Service,False,22,pay,1,legit,
+t199,1159,Metro Card Recharge,False,15,transfer,0,legit,
+t200,2618,New Shop 533,True,15,pay,0,legit,
+t201,1340,Laundry Service,False,15,pay,0,legit,
+t202,11655,Rahul Traders,True,11,collect_request,1,scam,collect_new

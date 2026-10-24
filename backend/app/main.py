@@ -13,7 +13,10 @@ from backend.app.schemas import (
     MessageRequest,
     MessageResponse,
     SamplesResponse,
+    TransactionRequest,
+    TransactionResponse,
 )
+from backend.app.transactions import analyze_transaction as score_transaction
 
 app = FastAPI(title="PayShield API")
 
@@ -54,6 +57,12 @@ def analyze_message(req: MessageRequest):
         highlights=rules.highlights,
         advice=build_advice(label, rules.signals),
     )
+
+
+@app.post("/api/analyze/transaction", response_model=TransactionResponse)
+def analyze_transaction(req: TransactionRequest) -> TransactionResponse:
+    """Analyse one transaction with the rule set from PRD 7.4. Invalid input -> 422."""
+    return score_transaction(req)
 
 
 @app.get("/api/samples", response_model=SamplesResponse)

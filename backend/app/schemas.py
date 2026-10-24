@@ -62,15 +62,25 @@ class MessageSample(BaseModel):
     sender: str
 
 
-class TransactionSample(BaseModel):
+class TransactionRequest(BaseModel):
+    amount: float = Field(gt=0, le=100_000_000)
+    payee: str = Field(min_length=1, max_length=100)
+    is_new_payee: bool
+    hour: int = Field(ge=0, le=23)
+    type: Literal["pay", "collect_request", "transfer"]
+    recent_txn_count_1h: int = Field(ge=0, le=1000)
+
+
+class TransactionResponse(BaseModel):
+    risk_label: RiskLabel
+    score: int
+    signals: list[Signal]
+    advice: list[str]
+
+
+class TransactionSample(TransactionRequest):
     id: str
     label: Literal["scam", "legit"]
-    amount: float
-    payee: str
-    is_new_payee: bool
-    hour: int
-    type: Literal["pay", "collect_request", "transfer"]
-    recent_txn_count_1h: int
 
 
 class SamplesResponse(BaseModel):

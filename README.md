@@ -39,7 +39,20 @@ Endpoints (contract: [PRD section 8](docs/PRD.md)):
 
 - `GET /api/health`
 - `POST /api/analyze/message` with `{"text": "...", "sender": "..."}`
+- `POST /api/analyze/transaction` with `{"amount": 49999, "payee": "...", "is_new_payee": true, "hour": 2, "type": "collect_request", "recent_txn_count_1h": 3}`
 - `GET /api/samples`
+
+## Data and model
+
+```powershell
+python data/generate_transactions.py                      # writes data/transactions.csv (seed 42)
+python data/validate_dataset.py data/raw/a.csv data/raw/b.csv   # merges, dedupes, validates -> data/messages.csv
+python -m backend.app.ml.train                             # 70/15/15 split, metrics per source, saves model
+python -m backend.app.ml.train --test-source gpt           # train on other sources, test on gpt (not saved)
+python -m backend.app.ml.train --all                       # retrain on everything and save
+```
+
+Input CSVs for the validator need columns `id,text,sender,label,scam_type,tags,source`.
 
 Rules, weights, keywords and advice live in `backend/app/rules/signals.json`; thresholds in `backend/app/config.py`.
 

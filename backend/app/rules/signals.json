@@ -99,6 +99,53 @@
     }
   },
 
+  "transaction_signals": {
+    "large_amount": {
+      "title": "Large amount",
+      "weight": 25,
+      "explanation": "This is a large payment. Scammers push for big amounts before you have time to check.",
+      "tip": "Pause before any large payment and confirm the request with someone you trust.",
+      "advice": ["Confirm large payments through a second channel, like a phone call, before paying."]
+    },
+    "new_payee_large": {
+      "title": "Large amount to a new payee",
+      "weight": 25,
+      "explanation": "You have never paid this payee before, and the amount is large.",
+      "tip": "Send a small test amount or verify the payee's identity before paying a stranger a large sum.",
+      "advice": ["Verify a new payee's identity before sending a large amount."]
+    },
+    "odd_hours": {
+      "title": "Unusual time",
+      "weight": 15,
+      "explanation": "The payment is happening between midnight and 5 AM, when scams are common and help is hard to reach.",
+      "tip": "Avoid paying late at night under pressure. Real requests can wait until morning.",
+      "advice": ["If someone is pushing you to pay at night, stop and wait until morning."]
+    },
+    "rapid_repeat": {
+      "title": "Many payments in a short time",
+      "weight": 20,
+      "explanation": "Three or more transactions in the last hour can mean someone is pressuring you to pay again and again.",
+      "tip": "Repeated 'just one more payment' requests are a pressure tactic.",
+      "advice": ["Stop and review your recent transactions in the official app."]
+    },
+    "collect_request_new_payee": {
+      "title": "Collect request from a new payee",
+      "weight": 30,
+      "explanation": "Someone you have never paid is asking you to approve a collect request. Approving it sends money out of your account.",
+      "tip": "Approving a collect request and entering your UPI PIN always pays money out, never in.",
+      "advice": ["Decline collect requests from people you do not know."]
+    },
+    "round_amount_pressure": {
+      "title": "Amount just under a limit",
+      "weight": 10,
+      "explanation": "The amount sits just under a common limit (like 9,999 or 49,999), a pattern used to avoid extra checks.",
+      "tip": "Amounts like 9,999 or 49,999 are often chosen to slip under limits.",
+      "advice": ["Ask why the amount is set just under a limit before paying."]
+    }
+  },
+
+  "free_mail_domains": ["gmail.com", "yahoo.com", "yahoo.co.in", "outlook.com", "hotmail.com", "rediffmail.com", "proton.me"],
+
   "link_checks": {
     "shortener": "It is a shortened link, which hides the real destination.",
     "raw_ip": "It points to a raw IP address instead of a website name.",
