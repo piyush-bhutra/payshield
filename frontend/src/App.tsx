@@ -266,7 +266,8 @@ export const App: React.FC = () => {
 
         {/* Results Area */}
         <div ref={resultRef} className="w-full max-w-4xl mx-auto mb-10">
-          {analysisResult && (
+          {/* Only show the result that belongs to the active tab */}
+          {analysisResult && analysisResult.kind === activeTab && (
             <AnalysisResult
               result={analysisResult}
               onReset={handleReset}
