@@ -21,7 +21,7 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
   // If no highlights, render original text cleanly
   if (!highlights || highlights.length === 0) {
     return (
-      <div className="surface-subtle p-4 rounded-xl text-sm leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D]">
+      <div className="surface-subtle p-4 rounded-xl text-base leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D]">
         {text}
       </div>
     );
@@ -67,7 +67,7 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
           <span className="font-semibold text-rose-400 block mb-0.5">
             ⚠️ {signalTitle}
           </span>
-          <span className="text-[11px] text-slate-300 font-normal leading-tight block">
+          <span className="text-xs text-slate-300 font-normal leading-tight block">
             {signal?.detail || "Matched suspicious pattern"}
           </span>
         </span>
@@ -90,11 +90,11 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
     <div className="space-y-2">
       <div className="flex items-center justify-between text-xs text-slate-400">
         <span className="font-medium text-slate-300">Message Analysis &amp; Highlighted Signals:</span>
-        <span className="text-[11px] text-slate-400">
+        <span className="text-xs text-slate-400">
           Hover or focus highlights to view warning signals
         </span>
       </div>
-      <div className="surface-subtle p-4 rounded-xl text-sm leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D] shadow-inner">
+      <div className="surface-subtle p-4 rounded-xl text-base leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D] shadow-inner">
         {elements}
       </div>
     </div>

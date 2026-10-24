@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
             <span>— Digital Payment Fraud Awareness &amp; Detection</span>
           </div>
 
-          <div className="flex items-center space-x-3 text-[11px]">
+          <div className="flex items-center space-x-3 text-xs">
             <span className="px-2.5 py-1 rounded-md bg-[#101F33] text-slate-300 border border-[#1E324D]">
               VIT AI Innovate-A-Thon • Question 18
             </span>

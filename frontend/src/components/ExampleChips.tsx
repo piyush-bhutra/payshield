@@ -63,7 +63,7 @@ export const ExampleChips: React.FC<ExampleChipsProps> = ({
           <Sparkles className="w-3.5 h-3.5 text-[#36D6D0]" />
           <span>One-Click Test Scenarios:</span>
         </div>
-        <span className="text-[11px] text-slate-500 hidden sm:inline">
+        <span className="text-xs text-slate-500 hidden sm:inline">
           Click to load &amp; analyze instantly
         </span>
       </div>
@@ -88,7 +88,7 @@ export const ExampleChips: React.FC<ExampleChipsProps> = ({
                   <div className="text-xs sm:text-sm font-semibold tracking-tight text-white truncate">
                     {chip.label}
                   </div>
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">
+                  <div className="text-xs text-slate-400 uppercase tracking-wider font-medium">
                     {chip.sublabel}
                   </div>
                 </div>

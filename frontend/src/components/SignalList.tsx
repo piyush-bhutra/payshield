@@ -33,7 +33,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
             {signals.length}
           </span>
         </h3>
-        <span className="text-[11px] text-slate-400">
+        <span className="text-xs text-slate-400">
           Ranked by severity weight
         </span>
       </div>
@@ -88,14 +88,14 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
               <div className="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t border-[#1E324D]/60 text-xs">
                 {signal.matched && signal.matched.length > 0 && (
                   <div className="flex items-center space-x-1.5 flex-wrap">
-                    <span className="text-[11px] text-slate-400 flex items-center">
+                    <span className="text-xs text-slate-400 flex items-center">
                       <Tag className="w-3 h-3 mr-1 text-[#36D6D0]" />
                       Matched:
                     </span>
                     {signal.matched.map((m, mi) => (
                       <span
                         key={mi}
-                        className="px-1.5 py-0.5 rounded bg-[#07111F] text-slate-300 font-mono text-[11px] border border-[#1E324D]"
+                        className="px-1.5 py-0.5 rounded bg-[#07111F] text-slate-300 font-mono text-xs border border-[#1E324D]"
                       >
                         "{m}"
                       </span>
@@ -104,7 +104,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
                 )}
 
                 {signal.tip && (
-                  <div className="w-full flex items-start space-x-1.5 mt-1 text-[11px] text-emerald-300/90 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                  <div className="w-full flex items-start space-x-1.5 mt-1 text-xs text-emerald-300/90 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
                     <Lightbulb className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
                     <span>
                       <strong>Safety tip:</strong> {signal.tip}

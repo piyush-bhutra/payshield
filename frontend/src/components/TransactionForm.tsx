@@ -278,7 +278,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               <Clock className="w-3.5 h-3.5 text-slate-400" />
               <span>Hour of Day (0–23)</span>
             </label>
-            <span className="text-[11px] font-mono text-[#36D6D0] font-bold">
+            <span className="text-xs font-mono text-[#36D6D0] font-bold">
               {hour.toString().padStart(2, "0")}:00 hrs
             </span>
           </div>
@@ -292,7 +292,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             disabled={isAnalyzing}
             className="w-full accent-[#36D6D0] cursor-pointer bg-[#1E324D] rounded-lg h-2"
           />
-          <div className="text-[11px] text-slate-400 mt-1">
+          <div className="text-xs text-slate-400 mt-1">
             {getHourDescriptor(hour)}
           </div>
         </div>
@@ -317,7 +317,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             className="w-full bg-[#0B1728] border border-[#1E324D] rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#36D6D0] font-mono transition-all"
             required
           />
-          <div className="text-[11px] text-slate-400 mt-1">
+          <div className="text-xs text-slate-400 mt-1">
             Detects burst behavior or repeated stress transfers
           </div>
         </div>
