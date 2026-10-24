@@ -27,9 +27,14 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
     );
   }
 
+  // The API returns offsets in Unicode code points (Python), while JS strings index by
+  // UTF-16 units, so emoji would shift every highlight after them. Slice by code point.
+  const chars = Array.from(text);
+  const slice = (start: number, end?: number) => chars.slice(start, end).join("");
+
   // Defensive bounds checks and sorting of highlights
   const validHighlights = highlights
-    .filter((h) => h.start >= 0 && h.end <= text.length && h.start < h.end)
+    .filter((h) => h.start >= 0 && h.end <= chars.length && h.start < h.end)
     .sort((a, b) => a.start - b.start);
 
   const elements: React.ReactNode[] = [];
@@ -40,12 +45,12 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
     if (hl.start > currentIndex) {
       elements.push(
         <span key={`plain-${currentIndex}`}>
-          {text.slice(currentIndex, hl.start)}
+          {slice(currentIndex, hl.start)}
         </span>
       );
     }
 
-    const matchedChunk = text.slice(hl.start, hl.end);
+    const matchedChunk = slice(hl.start, hl.end);
     const signal = signalMap.get(hl.signal_id);
     const signalTitle = signal?.title || hl.signal_id.replace(/_/g, " ");
 
@@ -73,10 +78,10 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
   });
 
   // Trailing text after last highlight
-  if (currentIndex < text.length) {
+  if (currentIndex < chars.length) {
     elements.push(
       <span key={`plain-${currentIndex}`}>
-        {text.slice(currentIndex)}
+        {slice(currentIndex)}
       </span>
     );
   }
