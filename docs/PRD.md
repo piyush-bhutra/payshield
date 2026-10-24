@@ -197,11 +197,13 @@ Each signal has: `id`, `title`, `weight`, `patterns` (keywords/regex), `explanat
 
 ### 7.3 Fusion
 ```
-final_score = min(100, round(0.6 * rule_score + 0.4 * ml_probability * 100))
+final_score = min(100, round(0.4 * rule_score + 0.6 * ml_probability * 100))
 safety floor: if credential_request AND suspicious_link both fire, final_score = max(final_score, 70)
 Low: < 35    Medium: 35 to 65    High: > 65
 ```
 The response includes `rule_score`, `ml_probability`, and the weights so the UI can show the breakdown. Thresholds are constants in one place.
+
+**Weight change (24 Oct 2026):** v1 used 0.6 rules / 0.4 ML. After the pre-registered v1 result on the held-out GPT batch, weights were re-chosen by leave-one-source-out over claude, gemini and gpt: 0.4 / 0.6 had the best average F1 (0.877) with a false-alarm rate under 15% (8.4%). Details in `docs/report_notes.md`. Field names and types are unchanged; only the `rule_weight` / `ml_weight` values in `breakdown` change.
 
 ### 7.4 Transaction rules
 

@@ -11,9 +11,10 @@ CORS_ORIGINS = ["http://localhost:5173", "http://localhost:3000"]
 
 MAX_TEXT_LENGTH = 2000
 
-# Fusion: final = 0.6 * rule_score + 0.4 * ml_probability * 100
-RULE_WEIGHT = 0.6
-ML_WEIGHT = 0.4
+# Fusion: final = 0.4 * rule_score + 0.6 * ml_probability * 100
+# (v1 was 0.6 / 0.4; changed after leave-one-source-out, see docs/report_notes.md)
+RULE_WEIGHT = 0.4
+ML_WEIGHT = 0.6
 SAFETY_FLOOR_SCORE = 70
 
 # Risk labels: Low < 35, Medium 35..65, High > 65
