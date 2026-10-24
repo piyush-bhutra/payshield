@@ -3,6 +3,8 @@ __pycache__/
 *.pyc
 .pytest_cache/
 *.joblib
+# The final demo model (~280 KB) is committed so a fresh clone runs with model_loaded true.
+!backend/app/ml/model.joblib
 .env
 node_modules/
 .playwright-mcp/

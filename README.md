@@ -33,7 +33,7 @@ python -m pip install -r requirements.txt
 python -m uvicorn backend.app.main:app --reload --port 8000
 ```
 
-To use the ML model, train it once first: `python -m backend.app.ml.train --all` (writes `backend/app/ml/model.joblib`, git-ignored). Without it the API still runs, rule-only, and `/api/health` reports `"model_loaded": false`.
+The trained model (`backend/app/ml/model.joblib`, about 280 KB) is committed, so `/api/health` reports `"model_loaded": true` straight after cloning. It was trained with the pinned scikit-learn version; to rebuild it, run `python -m backend.app.ml.train --all` (under a second). If the file is missing the API still runs, rule-only, with `"model_loaded": false`.
 
 Check it: http://localhost:8000/api/health (interactive docs: http://localhost:8000/docs)
 
