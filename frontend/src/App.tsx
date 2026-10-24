@@ -17,6 +17,7 @@ import type {
   TransactionRequest,
 } from "./types/api";
 import { AlertCircle, Cpu } from "lucide-react";
+import { MotionConfig } from "framer-motion";
 
 export const App: React.FC = () => {
   const [isMock, setIsMock] = useState<boolean>(apiService.isMockMode());
@@ -180,6 +181,8 @@ export const App: React.FC = () => {
   };
 
   return (
+    // reducedMotion="user": framer-motion skips transform/layout animations when the OS asks for reduced motion
+    <MotionConfig reducedMotion="user">
     <div className="min-h-screen flex flex-col bg-[#07111F] text-slate-100 font-sans selection:bg-[#36D6D0]/30 selection:text-[#36D6D0]">
       {/* Header */}
       <Header
@@ -290,6 +293,7 @@ export const App: React.FC = () => {
       {/* Footer */}
       <Footer />
     </div>
+    </MotionConfig>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { AlertTriangle, CheckCircle, Lightbulb, Tag } from "lucide-react";
 import type { Signal } from "../types/api";
 
@@ -8,6 +8,9 @@ interface SignalListProps {
 }
 
 export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
+  // prefers-reduced-motion: no stagger, weight bars appear at full width immediately
+  const reduceMotion = useReducedMotion();
+
   if (!signals || signals.length === 0) {
     return (
       <div className="surface-subtle p-5 rounded-xl border border-emerald-500/20 text-center flex flex-col items-center justify-center space-y-2">
@@ -48,7 +51,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
               key={signal.id || index}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08, duration: 0.35 }}
+              transition={{ delay: reduceMotion ? 0 : index * 0.08, duration: 0.35 }}
               className="surface-card p-3.5 sm:p-4 rounded-xl border border-[#1E324D] hover:border-[#2A4468] transition-colors"
             >
               <div className="flex items-start justify-between gap-3 mb-2">
@@ -80,7 +83,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
                   className="h-full bg-gradient-to-r from-amber-500 to-rose-500 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${weightPercent}%` }}
-                  transition={{ duration: 0.6, delay: 0.15 + index * 0.05 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.15 + index * 0.05 }}
                 />
               </div>
 
