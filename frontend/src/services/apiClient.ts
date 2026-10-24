@@ -111,8 +111,8 @@ export class ApiService {
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Network error";
       throw new Error(
-        message.includes("Failed to fetch") || message.includes("NetworkError")
-          ? "Could not reach the backend server at " + this.baseUrl + ". Is FastAPI running? (Or toggle Demo Mode above)"
+        message.includes("Failed to fetch") || message.includes("NetworkError") || message.includes("fetch failed")
+          ? "Could not reach the PayShield server. Is the backend running?"
           : message
       );
     }
@@ -166,8 +166,8 @@ export class ApiService {
         throw err;
       }
       throw new Error(
-        message.includes("Failed to fetch") || message.includes("NetworkError")
-          ? "Could not reach the backend server at " + this.baseUrl + ". (Toggle Demo Mode above for offline testing)"
+        message.includes("Failed to fetch") || message.includes("NetworkError") || message.includes("fetch failed")
+          ? "Could not reach the PayShield server. Is the backend running?"
           : message
       );
     }

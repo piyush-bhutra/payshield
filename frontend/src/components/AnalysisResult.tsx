@@ -54,9 +54,11 @@ export const AnalysisResult: React.FC<AnalysisResultProps> = ({
       border: "border-emerald-500/40",
       text: "text-emerald-400",
       icon: ShieldCheck,
-      label: "Low Risk Signals Found",
+      label: "Low Risk",
       interpretation:
-        "Few risk signals were detected. Stay alert.",
+        result.signals.length === 0
+          ? "No warning signs were found in this message. Still verify through the official app or number."
+          : "Few warning signs were detected. Stay alert.",
       badgeGlow: "",
     },
   }[result.risk_label] || {
@@ -207,6 +209,7 @@ export const AnalysisResult: React.FC<AnalysisResultProps> = ({
 
         {/* Score Breakdown Disclosure */}
         <ScoreBreakdown
+          kind={result.kind}
           score={result.score}
           ruleScore={result.rule_score}
           mlProbability={result.ml_probability}

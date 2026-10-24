@@ -5,7 +5,8 @@
 const envApiBase = import.meta.env.VITE_API_BASE_URL;
 const envUseMock = import.meta.env.VITE_USE_MOCK;
 
-export const DEFAULT_API_BASE_URL = envApiBase || "http://localhost:8000";
+export const DEFAULT_API_BASE_URL = envApiBase || "http://127.0.0.1:8000";
 
-// If VITE_USE_MOCK is explicitly "false", default to false; otherwise default to true for safe local demo
-export const DEFAULT_USE_MOCK = envUseMock === "false" ? false : true;
+// Default to live mode when no env is set; enable mock only if VITE_USE_MOCK is explicitly "true"
+export const DEFAULT_USE_MOCK = envUseMock === "true" ? true : false;
+

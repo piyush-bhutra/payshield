@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
                 Awareness aid, not a guarantee.
               </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                PayShield is an educational cybersecurity tool designed to highlight common phishing heuristics and risky payment patterns. 
+                PayShield is an educational cybersecurity tool designed to highlight common phishing patterns and risky payment requests. 
                 All demonstration datasets and sample scenarios are synthetic and fictitious. 
                 PayShield never fetches, resolves, or connects to external URLs, nor does it interface directly with bank servers or UPI payment rails. 
                 Automated security scores can produce false positives or false negatives; always independently verify critical banking requests through official banking apps or verified customer support lines.
