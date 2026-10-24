@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { MessageSquareText, ArrowLeftRight } from "lucide-react";
 
@@ -13,15 +13,35 @@ export const CheckerTabs: React.FC<CheckerTabsProps> = ({
   activeTab,
   onTabChange,
 }) => {
+  const tabRefs = useRef<Record<CheckerTab, HTMLButtonElement | null>>({ message: null, transaction: null });
+
+  // Roving tabindex: Tab reaches the active tab, Left/Right (and Home/End) move between tabs.
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const order: CheckerTab[] = ["message", "transaction"];
+    const i = order.indexOf(activeTab);
+    const next = {
+      ArrowRight: order[(i + 1) % order.length],
+      ArrowLeft: order[(i - 1 + order.length) % order.length],
+      Home: order[0],
+      End: order[order.length - 1],
+    }[e.key];
+    if (!next) return;
+    e.preventDefault();
+    onTabChange(next);
+    tabRefs.current[next]?.focus();
+  };
+
   return (
     <div className="flex justify-center mb-6">
       <div
         role="tablist"
         aria-label="Analysis type selection"
+        onKeyDown={handleKeyDown}
         className="inline-flex p-1.5 rounded-2xl bg-[#0B1728] border border-[#1E324D] shadow-inner"
       >
         <button
           id="tab-message"
+          ref={(el) => { tabRefs.current.message = el; }}
           role="tab"
           type="button"
           aria-selected={activeTab === "message"}
@@ -47,6 +67,7 @@ export const CheckerTabs: React.FC<CheckerTabsProps> = ({
 
         <button
           id="tab-transaction"
+          ref={(el) => { tabRefs.current.transaction = el; }}
           role="tab"
           type="button"
           aria-selected={activeTab === "transaction"}
