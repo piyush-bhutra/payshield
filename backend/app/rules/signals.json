@@ -7,8 +7,18 @@
       "tip": "Anyone asking for your OTP or PIN is trying to take money out, not put it in.",
       "advice": ["Never share OTP, PIN, CVV or passwords with anyone."],
       "patterns": [
-        "\\b(share|send|confirm|verify|update|provide|enter|tell|give|submit|reply with)\\b[^.\\n]{0,40}\\b(otp|pin|cvv|password|passcode|card (number|details)|aadhaa?r|pan (card|number|details)|bank details|login details|net ?banking details)\\b",
-        "\\b(otp|cvv|pin)\\b[^.\\n]{0,25}\\b(share|send|tell|reply|forward)\\b"
+        "\\b(share|send|confirm|verify|update|provide|enter|tell|give|submit|reply|read out|forward|sms|text|type|put|upload|key in)\\b[^.!?\\n]{0,60}\\b(otp|pin|cvv|password|passcode|(verification|security|auth|authentication|cancellation|confirmation|secret|\\d[ -]digit) (code|otp|pin)|card (number|details)|expiry date|aadhaa?r|pan (card|number|details|copy)|rc (copy|book)|bank details|login details|net ?banking details)\\b",
+        "\\b(otp|cvv|pin|(verification|security|auth|cancellation|\\d[ -]digit) code)\\b[^.!?\\n]{0,60}\\b(share|send|tell|reply|forward|read out|give)\\b"
+      ]
+    },
+    "call_unknown_number": {
+      "title": "Asks you to call a personal number",
+      "weight": 15,
+      "explanation": "The message asks you to call, WhatsApp or message a personal mobile number. Banks, telecom companies and government offices use toll-free or official numbers.",
+      "tip": "Find the official helpline on the organisation's website or app instead of calling a number from a message.",
+      "advice": ["Do not call numbers given in the message. Use the official helpline from the app or website."],
+      "patterns": [
+        "\\b(call|whatsapp|message|contact|ring|dial|sms|text|ping)\\b[^.!?\\n]{0,50}(?<![\\d+])(\\+?91[\\s-]?)?[6-9]\\d{9}(?!\\d)"
       ]
     },
     "suspicious_link": {
@@ -29,7 +39,8 @@
         "\\bwithin \\d+\\s?(hours?|hrs?|minutes?|mins?|days?)\\b",
         "\\b(last|final) (warning|chance|reminder|notice)\\b",
         "\\b(expires?|expiring|ends?) (today|tonight|soon)\\b",
-        "\\b(today itself|before midnight)\\b"
+        "\\b(today itself|before midnight|at midnight|by midnight|right away|without delay)\\b",
+        "\\b\\d{1,2}(:\\d{2})?\\s?(am|pm) (today|tonight)\\b"
       ]
     },
     "account_threat": {
@@ -42,7 +53,8 @@
         "\\bkyc\\b[^.\\n]{0,30}\\b(expir\\w*|pending|incomplete|not updated|update required|suspended|blocked)",
         "\\b(will|shall|may) be (suspended|blocked|deactivated|closed|frozen|terminated|disabled|barred)\\b",
         "\\b(has been|is|was) (temporarily )?(suspended|blocked|deactivated|frozen|disabled)\\b",
-        "\\bavoid (being )?(account )?(block\\w*|suspension|deactivation|closure)"
+        "\\bavoid (being )?(account )?(block\\w*|suspension|deactivation|closure)",
+        "\\b(sim|mobile number|number|account|a/c|wallet|card|fastag|power supply|connection|services?|upi)\\b[^.!?\\n]{0,50}\\b(deactivat\\w*|ban|banned|blacklist\\w*|disconnect\\w*|on (temp\\w* )?hold|stopped|suspend\\w*|blocked|frozen|terminat\\w*|disabled)\\b"
       ]
     },
     "prize_bait": {
@@ -56,7 +68,14 @@
         "\\b(unclaimed|pending|claim( your)?)\\b[^.\\n]{0,25}\\b(refund|cashback|reward|prize|bonus)",
         "\\breward points?\\b[^.\\n]{0,30}\\bexpir\\w*",
         "\\b(income tax|it) refund\\b",
-        "\\b(get|win|earn) (an? )?(assured )?cashback\\b"
+        "\\b(get|win|earn) (an? )?(assured )?cashback\\b",
+        "\\b(won|win|winning)\\b[^.!?\\n]{0,30}((rs\\.?|inr|₹)\\s?[\\d,]+|prize|bonus|lakh|crore|car|gold|reward)",
+        "\\b(selected|drawn|picked)\\b[^.!?\\n]{0,40}\\b(draw|contest|lucky|bumper|winners?|prize)\\b",
+        "\\b(draw|contest|lucky draw|bumper)\\b[^.!?\\n]{0,40}\\b(selected|drawn|picked)\\b",
+        "\\b(bumper|lucky|mega) (draw|prize|offer|bonus)\\b",
+        "\\bfree\\b[^\\n]{0,40}\\b(grab|claim|collect)\\b",
+        "\\b(cashback|rebate|reward|refund|bonus)\\b[^.!?\\n]{0,25}\\b(ready|unlocked|waiting for you|available to claim)\\b",
+        "\\b(points?|rewardz)\\b[^.!?\\n]{0,40}\\b(lapse|expire|expiring)\\w*"
       ]
     },
     "payment_pressure": {
@@ -66,11 +85,13 @@
       "tip": "Entering your UPI PIN always sends money out. It is never needed to receive money.",
       "advice": ["Do not approve collect requests or enter your UPI PIN to receive money."],
       "patterns": [
-        "\\b(send|pay|transfer)\\b[^.\\n]{0,20}(rs\\.?|inr|₹)\\s?[\\d,]+[^.\\n]{0,40}\\b(receive|get|release|unlock|activate|claim)\\b",
-        "\\b(approve|accept)\\b[^.\\n]{0,40}\\b(collect request|payment request|upi request)\\b",
-        "\\b(enter|use) (your )?(upi )?pin\\b[^.\\n]{0,30}\\b(receive|get|credit)",
-        "\\b(processing|registration|release|clearance|verification|delivery|handling) (fee|charge)s?\\b",
-        "\\bscan\\b[^.\\n]{0,20}\\bqr\\b[^.\\n]{0,30}\\b(receive|get)\\b"
+        "\\b(send|pay|transfer|deposit)\\b[^.!?\\n]{0,30}(rs\\.?|inr|₹)\\s?[\\d,]+[^.!?\\n]{0,60}\\b(receive|get|release|unlock|activate|claim|obtain|dispatch|book)",
+        "\\b(approve|accept|authori[sz]e|click pay|tap pay|press pay)\\b[^.!?\\n]{0,60}\\b((collect|pull|payment|pending|upi) (request|notification)|upi collect)\\b",
+        "\\b((collect|pull|payment|pending|upi) (request|notification)|upi collect)\\b[^.!?\\n]{0,60}\\b(approve|accept|authori[sz]e|click pay|tap pay)\\b",
+        "\\b(enter|use|put|type)\\b[^.!?\\n]{0,15}\\b(\\d[ -]digit )?(upi )?pin\\b[^.!?\\n]{0,50}\\b(receive|get|credit|deposit|refund|paid)",
+        "\\b(processing|registration|release|clearance|verification|delivery|handling|courier|dispatch|customs|tax|security|starter|insurance|activation) (fee|charges?|deposit)\\b",
+        "\\b(tax|customs) clearance\\b",
+        "\\bscan\\b[^.!?\\n]{0,20}\\bqr\\b[^.!?\\n]{0,30}\\b(receive|get)\\b"
       ]
     },
     "sender_mismatch": {
@@ -164,6 +185,10 @@
   ],
   "legit_adjustment": -10,
 
+  "kyc_pattern": "\\b(re-?kyc|e-?kyc|kyc)\\b",
+  "mobile_number_pattern": "(?<![\\d+])(\\+?91[\\s-]?)?[6-9]\\d{9}(?!\\d)",
+  "login_patterns": ["\\b(log ?in|sign ?in)\\b"],
+
   "brands": [
     {"name": "SBI", "pattern": "\\bsbi\\b|\\bstate bank\\b", "sender_hints": ["sbi"]},
     {"name": "HDFC Bank", "pattern": "\\bhdfc\\b", "sender_hints": ["hdfc"]},
@@ -176,7 +201,38 @@
     {"name": "Income Tax", "pattern": "\\bincome ?tax\\b|\\bitr\\b", "sender_hints": ["incometax", "itdept", "gov.in"]},
     {"name": "RBI", "pattern": "\\brbi\\b|\\breserve bank\\b", "sender_hints": ["rbi"]},
     {"name": "NPCI", "pattern": "\\bnpci\\b", "sender_hints": ["npci"]},
-    {"name": "Amazon", "pattern": "\\bamazon\\b", "sender_hints": ["amazon", "amzn"]}
+    {"name": "Amazon", "pattern": "\\bamazon\\b", "sender_hints": ["amazon", "amzn"]},
+    {"name": "Bank of Baroda", "pattern": "\\bbank of baroda\\b|\\bbob\\b", "sender_hints": ["bob", "baroda"]},
+    {"name": "Canara Bank", "pattern": "\\bcanara\\w*", "sender_hints": ["canara", "canbnk", "cnrb"]},
+    {"name": "Union Bank", "pattern": "\\bunion bank\\b|\\bubi\\b", "sender_hints": ["union", "ubi"]},
+    {"name": "IndusInd Bank", "pattern": "\\bindusind\\b", "sender_hints": ["indusind", "indbnk"]},
+    {"name": "Kotak", "pattern": "\\bkotak\\b", "sender_hints": ["kotak", "kmbl"]},
+    {"name": "PNB", "pattern": "\\bpnb\\b|\\bpunjab national\\b", "sender_hints": ["pnb"]},
+    {"name": "Bandhan Bank", "pattern": "\\bbandhan\\b", "sender_hints": ["bandhan"]},
+    {"name": "Yes Bank", "pattern": "\\byes bank\\b", "sender_hints": ["yesbnk", "yesbank"]},
+    {"name": "MobiKwik", "pattern": "\\bmobikwik\\b", "sender_hints": ["mobikwik", "mbkwik"]},
+    {"name": "BHIM", "pattern": "\\bbhim\\b", "sender_hints": ["bhim", "npci"]},
+    {"name": "Telecom", "pattern": "\\b(bsnl|jio|airtel|vodafone|trai|telecom department)\\b", "sender_hints": ["bsnl", "jio", "airtel", "vi", "trai"]},
+    {"name": "FASTag / NHAI", "pattern": "\\b(fastag|nhai)\\b", "sender_hints": ["nhai", "fastag", "ihmcl"]},
+    {"name": "UIDAI", "pattern": "\\buidai\\b", "sender_hints": ["uidai", "aadhar", "aadhaar"]},
+    {"name": "EPFO", "pattern": "\\bepfo?\\b", "sender_hints": ["epfo"]},
+    {"name": "Customs", "pattern": "\\bcustoms\\b", "sender_hints": ["cbic", "gov.in"]},
+    {"name": "Electricity board", "pattern": "\\b(bescom|tangedco|tneb|mseb|msedcl|electricity board)\\b", "sender_hints": ["bescom", "tneb", "tangedco", "mseb", "msedcl"]},
+    {"name": "WhatsApp", "pattern": "\\bwhatsapp security\\b|\\bwhatsapp support\\b", "sender_hints": ["whatsapp"]},
+    {"name": "Flipkart", "pattern": "\\bflipkart\\b", "sender_hints": ["flpkrt", "flipkart", "ekart"]},
+    {"name": "Myntra", "pattern": "\\bmyntra\\b", "sender_hints": ["myntra"]},
+    {"name": "Ajio", "pattern": "\\bajio\\b", "sender_hints": ["ajio"]},
+    {"name": "Nykaa", "pattern": "\\bnykaa\\b", "sender_hints": ["nykaa"]},
+    {"name": "BigBasket", "pattern": "\\bbig ?basket\\b", "sender_hints": ["bigbsk", "bigbasket"]},
+    {"name": "Swiggy", "pattern": "\\bswiggy\\b", "sender_hints": ["swiggy"]},
+    {"name": "Zomato", "pattern": "\\bzomato\\b", "sender_hints": ["zomato"]},
+    {"name": "Courier", "pattern": "\\b(blue ?dart|delhivery|india post|dtdc)\\b", "sender_hints": ["bluedart", "bldart", "delhvy", "indpst", "dtdc"]},
+    {"name": "MakeMyTrip", "pattern": "\\bmakemytrip\\b|\\bmmt\\b", "sender_hints": ["mmt", "makemytrip"]},
+    {"name": "BookMyShow", "pattern": "\\bbookmyshow\\b", "sender_hints": ["bms", "bookmyshow"]},
+    {"name": "IRCTC", "pattern": "\\birctc\\b", "sender_hints": ["irctc"]},
+    {"name": "Hotstar", "pattern": "\\bhotstar\\b", "sender_hints": ["hotstar", "jiohtr"]},
+    {"name": "Netflix", "pattern": "\\bnetflix\\b", "sender_hints": ["netflix"]},
+    {"name": "LIC", "pattern": "\\blic\\b", "sender_hints": ["lic"]}
   ],
 
   "scam_types": [

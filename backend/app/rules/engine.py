@@ -20,6 +20,9 @@ def _compile(patterns: list[str]) -> list[re.Pattern]:
 MESSAGE_SIGNALS: dict = RULES["message_signals"]
 SIGNAL_PATTERNS = {sid: _compile(spec["patterns"]) for sid, spec in MESSAGE_SIGNALS.items() if "patterns" in spec}
 LEGIT_PATTERNS = _compile(RULES["legit_patterns"])
+KYC_RE = re.compile(RULES["kyc_pattern"], re.IGNORECASE)
+MOBILE_RE = re.compile(RULES["mobile_number_pattern"])
+LOGIN_PATTERNS = _compile(RULES["login_patterns"])
 BRANDS = [(b, re.compile(b["pattern"], re.IGNORECASE)) for b in RULES["brands"]]
 SHORTENERS = set(RULES["shorteners"])
 SUSPICIOUS_TLDS = set(RULES["suspicious_tlds"])
@@ -27,7 +30,7 @@ KNOWN_TLDS = SUSPICIOUS_TLDS | set(RULES["common_tlds"])
 
 # Signals that make a brand mention suspicious (PRD 7.1 brand_impersonation).
 RISKY_FOR_BRAND = {"credential_request", "suspicious_link", "urgency_threat", "account_threat",
-                   "prize_bait", "payment_pressure", "sender_mismatch"}
+                   "prize_bait", "payment_pressure", "sender_mismatch", "call_unknown_number"}
 
 # Raw IP first, then domain names. Scheme and path are optional.
 URL_RE = re.compile(
@@ -124,6 +127,16 @@ def analyze_message(text: str, sender: str | None = None) -> RuleResult:
     bad_urls = [(span, reasons) for span, _, reasons in urls if reasons]
     if bad_urls:
         spans["suspicious_link"] = [span for span, _ in bad_urls]
+        # "Log in" next to a suspicious link is a request for your password on a fake page.
+        logins = _regex_spans(LOGIN_PATTERNS, text)
+        if logins:
+            spans.setdefault("credential_request", []).extend(logins)
+
+    # KYC together with a suspicious link or a mobile number is how fake-KYC scams ask you to act.
+    if bad_urls or MOBILE_RE.search(text):
+        kyc = _regex_spans([KYC_RE], text)
+        if kyc:
+            spans.setdefault("account_threat", []).extend(kyc)
 
     # FR-M5: "Do not share this OTP" style warnings with no link are a legitimate pattern.
     adjustment = 0

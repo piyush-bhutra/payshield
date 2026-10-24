@@ -89,6 +89,31 @@ def test_sender_mismatch_needs_brand_and_wrong_sender():
     assert "sender_mismatch" not in ids("Hello, see you at 5.", "+919800000001")
 
 
+def _ids(text, sender=None):
+    return {s.id for s in analyze_message(text, sender).signals}
+
+
+def test_code_requests_count_as_credential_requests():
+    assert "credential_request" in _ids("A 6-digit verification code was sent to you, please forward it to us.")
+    assert "credential_request" in _ids("Reply to this SMS with your debit card number and expiry date.")
+    assert "credential_request" in _ids("Your account is locked. Log in at http://bank-secure-login.xyz to restore.")
+
+
+def test_call_personal_number_signal():
+    assert "call_unknown_number" in _ids("Your SIM will be deactivated. Call our officer on 9000012345 now.")
+    assert "call_unknown_number" not in _ids("Not you? Call 1800-000-0000 to report.")
+
+
+def test_kyc_needs_suspicious_link_or_mobile_number():
+    assert "account_threat" in _ids("Complete re-KYC at https://bank-rekyc.top")
+    assert "account_threat" not in _ids("Your e-KYC was done on 24-Oct. Details at https://www.example.com")
+
+
+def test_appointment_times_are_not_urgency():
+    assert "urgency_threat" not in _ids("Your appointment is confirmed for 29 Oct at 10:15 AM.")
+    assert "urgency_threat" in _ids("Power supply will be cut at 8:30 PM tonight.")
+
+
 def test_analysis_makes_no_network_calls(monkeypatch):
     def blocked(*args, **kwargs):
         raise AssertionError("network access attempted")
