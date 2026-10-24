@@ -21,15 +21,20 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
   // If no highlights, render original text cleanly
   if (!highlights || highlights.length === 0) {
     return (
-      <div className="surface-subtle p-4 rounded-xl text-sm leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D]">
+      <div className="surface-subtle p-4 rounded-xl text-base leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D]">
         {text}
       </div>
     );
   }
 
+  // The API returns offsets in Unicode code points (Python), while JS strings index by
+  // UTF-16 units, so emoji would shift every highlight after them. Slice by code point.
+  const chars = Array.from(text);
+  const slice = (start: number, end?: number) => chars.slice(start, end).join("");
+
   // Defensive bounds checks and sorting of highlights
   const validHighlights = highlights
-    .filter((h) => h.start >= 0 && h.end <= text.length && h.start < h.end)
+    .filter((h) => h.start >= 0 && h.end <= chars.length && h.start < h.end)
     .sort((a, b) => a.start - b.start);
 
   const elements: React.ReactNode[] = [];
@@ -40,12 +45,12 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
     if (hl.start > currentIndex) {
       elements.push(
         <span key={`plain-${currentIndex}`}>
-          {text.slice(currentIndex, hl.start)}
+          {slice(currentIndex, hl.start)}
         </span>
       );
     }
 
-    const matchedChunk = text.slice(hl.start, hl.end);
+    const matchedChunk = slice(hl.start, hl.end);
     const signal = signalMap.get(hl.signal_id);
     const signalTitle = signal?.title || hl.signal_id.replace(/_/g, " ");
 
@@ -62,7 +67,7 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
           <span className="font-semibold text-rose-400 block mb-0.5">
             ⚠️ {signalTitle}
           </span>
-          <span className="text-[11px] text-slate-300 font-normal leading-tight block">
+          <span className="text-xs text-slate-300 font-normal leading-tight block">
             {signal?.detail || "Matched suspicious pattern"}
           </span>
         </span>
@@ -73,10 +78,10 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
   });
 
   // Trailing text after last highlight
-  if (currentIndex < text.length) {
+  if (currentIndex < chars.length) {
     elements.push(
       <span key={`plain-${currentIndex}`}>
-        {text.slice(currentIndex)}
+        {slice(currentIndex)}
       </span>
     );
   }
@@ -85,11 +90,11 @@ export const HighlightedMessage: React.FC<HighlightedMessageProps> = ({
     <div className="space-y-2">
       <div className="flex items-center justify-between text-xs text-slate-400">
         <span className="font-medium text-slate-300">Message Analysis &amp; Highlighted Signals:</span>
-        <span className="text-[11px] text-slate-400">
+        <span className="text-xs text-slate-400">
           Hover or focus highlights to view warning signals
         </span>
       </div>
-      <div className="surface-subtle p-4 rounded-xl text-sm leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D] shadow-inner">
+      <div className="surface-subtle p-4 rounded-xl text-base leading-relaxed text-slate-200 font-mono whitespace-pre-wrap break-words border border-[#1E324D] shadow-inner">
         {elements}
       </div>
     </div>

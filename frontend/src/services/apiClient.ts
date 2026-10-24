@@ -10,6 +10,8 @@ import type {
 import { DEFAULT_API_BASE_URL, DEFAULT_USE_MOCK } from "./config";
 import { mockAnalyzeMessage, mockAnalyzeTransaction } from "./mockEngine";
 
+const SERVER_UNREACHABLE = "Could not reach the PayShield server. Is the backend running?";
+
 export class ApiService {
   private baseUrl: string;
   private useMock: boolean;
@@ -80,42 +82,8 @@ export class ApiService {
       };
     }
 
-    try {
-      const res = await fetch(`${this.baseUrl}/api/analyze/message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(req),
-        signal: AbortSignal.timeout(8000),
-      });
-
-      if (!res.ok) {
-        let errMessage = `Server returned status ${res.status}`;
-        try {
-          const errJson = await res.json();
-          if (errJson.error) {
-            errMessage = errJson.error;
-          } else if (errJson.detail) {
-            errMessage = typeof errJson.detail === "string" ? errJson.detail : JSON.stringify(errJson.detail);
-          }
-        } catch {
-          // fallback
-        }
-        throw new Error(errMessage);
-      }
-
-      const data = (await res.json()) as MessageResponse;
-      return { data, isMock: false };
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Network error";
-      throw new Error(
-        message.includes("Failed to fetch") || message.includes("NetworkError") || message.includes("fetch failed")
-          ? "Could not reach the PayShield server. Is the backend running?"
-          : message
-      );
-    }
+    const data = await this.postJson<MessageResponse>("/api/analyze/message", req);
+    return { data, isMock: false };
   }
 
   public async analyzeTransaction(
@@ -129,47 +97,26 @@ export class ApiService {
       };
     }
 
+    const data = await this.postJson<TransactionResponse>("/api/analyze/transaction", req);
+    return { data, isMock: false };
+  }
+
+  /**
+   * POST JSON to the live API. Every failure (network error, 8 s timeout, any non-2xx
+   * status such as HTTP 500) becomes the same friendly message for the error banner.
+   */
+  private async postJson<T>(path: string, body: unknown): Promise<T> {
     try {
-      const res = await fetch(`${this.baseUrl}/api/analyze/transaction`, {
+      const res = await fetch(`${this.baseUrl}${path}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(req),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(body),
         signal: AbortSignal.timeout(8000),
       });
-
-      if (res.status === 404) {
-        throw new Error(
-          "Transaction analysis endpoint (/api/analyze/transaction) is not yet implemented on the live backend branch. Switch to Demo Mode above to test transaction detection with synthetic data."
-        );
-      }
-
-      if (!res.ok) {
-        let errMessage = `Server error ${res.status}`;
-        try {
-          const errJson = await res.json();
-          if (errJson.error) errMessage = errJson.error;
-          else if (errJson.detail) errMessage = JSON.stringify(errJson.detail);
-        } catch {
-          // fallback
-        }
-        throw new Error(errMessage);
-      }
-
-      const data = (await res.json()) as TransactionResponse;
-      return { data, isMock: false };
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Network error";
-      if (message.includes("not yet implemented")) {
-        throw err;
-      }
-      throw new Error(
-        message.includes("Failed to fetch") || message.includes("NetworkError") || message.includes("fetch failed")
-          ? "Could not reach the PayShield server. Is the backend running?"
-          : message
-      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return (await res.json()) as T;
+    } catch {
+      throw new Error(SERVER_UNREACHABLE);
     }
   }
 }

@@ -111,12 +111,12 @@ export const AnalysisResult: React.FC<AnalysisResultProps> = ({
 
         <div className="flex items-center space-x-2">
           {result.isMock ? (
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#0B1728] border border-[#1E324D] text-[11px] font-medium text-slate-400">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#0B1728] border border-[#1E324D] text-xs font-medium text-slate-400">
               <Sparkles className="w-3 h-3 text-[#36D6D0] mr-1.5" />
               Demo Engine
             </span>
           ) : (
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-medium text-emerald-400">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-xs font-medium text-emerald-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse" />
               Live Backend
             </span>
@@ -177,25 +177,25 @@ export const AnalysisResult: React.FC<AnalysisResultProps> = ({
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D]">
-                <span className="text-slate-400 block text-[11px]">Amount</span>
+                <span className="text-slate-400 block text-xs">Amount</span>
                 <span className="font-bold font-mono text-white text-sm">
                   ₹{result.transactionDetails.amount.toLocaleString("en-IN")}
                 </span>
               </div>
               <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D]">
-                <span className="text-slate-400 block text-[11px]">Payee</span>
+                <span className="text-slate-400 block text-xs">Payee</span>
                 <span className="font-bold text-slate-100 truncate block">
                   {result.transactionDetails.payee}
                 </span>
               </div>
               <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D]">
-                <span className="text-slate-400 block text-[11px]">Recipient Status</span>
+                <span className="text-slate-400 block text-xs">Recipient Status</span>
                 <span className={`font-semibold ${result.transactionDetails.is_new_payee ? "text-amber-400" : "text-emerald-400"}`}>
                   {result.transactionDetails.is_new_payee ? "New Payee" : "Existing Contact"}
                 </span>
               </div>
               <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D]">
-                <span className="text-slate-400 block text-[11px]">Time &amp; Type</span>
+                <span className="text-slate-400 block text-xs">Time &amp; Type</span>
                 <span className="font-semibold text-slate-200">
                   {result.transactionDetails.hour.toString().padStart(2, "0")}:00 hrs • {result.transactionDetails.type}
                 </span>

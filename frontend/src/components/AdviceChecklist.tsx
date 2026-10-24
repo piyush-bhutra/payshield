@@ -78,7 +78,7 @@ export const AdviceChecklist: React.FC<AdviceChecklistProps> = ({
 
       {/* Checklist items */}
       <div className="p-4 space-y-2.5">
-        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+        <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
           <span>What to do now (tap to check off completed steps):</span>
           <span>{Object.values(completed).filter(Boolean).length} of {advice.length} done</span>
         </div>
@@ -123,7 +123,7 @@ export const AdviceChecklist: React.FC<AdviceChecklistProps> = ({
               href="https://cybercrime.gov.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] text-[#36D6D0] hover:underline flex items-center space-x-1"
+              className="text-xs text-[#36D6D0] hover:underline flex items-center space-x-1"
             >
               <span>cybercrime.gov.in</span>
               <ArrowRight className="w-3 h-3" />

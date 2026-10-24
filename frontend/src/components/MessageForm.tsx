@@ -31,6 +31,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
   onClear,
 }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [pasteTruncated, setPasteTruncated] = useState(false);
 
   const maxChars = 2000;
   const charsRemaining = maxChars - text.length;
@@ -54,6 +55,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
     onTextChange("");
     onSenderChange("");
     setValidationError(null);
+    setPasteTruncated(false);
     onClear();
   };
 
@@ -133,7 +135,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
             </span>
           </label>
           <span
-            className={`text-[11px] font-mono ${
+            className={`text-xs font-mono ${
               charsRemaining < 100
                 ? "text-rose-400 font-bold"
                 : "text-slate-400"
@@ -152,11 +154,18 @@ export const MessageForm: React.FC<MessageFormProps> = ({
             onChange={(e) => {
               onTextChange(e.target.value);
               if (validationError) setValidationError(null);
+              if (pasteTruncated && e.target.value.length < maxChars) setPasteTruncated(false);
+            }}
+            onPaste={(e) => {
+              // maxLength silently cuts long pastes; tell the user when that happens
+              const ta = e.currentTarget;
+              const replaced = ta.selectionEnd - ta.selectionStart;
+              setPasteTruncated(text.length - replaced + e.clipboardData.getData("text").length > maxChars);
             }}
             placeholder="Paste suspicious SMS, WhatsApp notice, reward alert, or KYC suspension message here (e.g. 'Dear customer, your SBI KYC expires today...')"
             disabled={isAnalyzing}
             maxLength={maxChars}
-            className="w-full bg-[#0B1728] border border-[#1E324D] rounded-xl p-3.5 sm:p-4 text-sm text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#36D6D0] focus:border-transparent transition-all resize-y font-sans leading-relaxed disabled:opacity-60"
+            className="w-full bg-[#0B1728] border border-[#1E324D] rounded-xl p-3.5 sm:p-4 text-base text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#36D6D0] focus:border-transparent transition-all resize-y font-sans leading-relaxed disabled:opacity-60"
             aria-required="true"
             aria-invalid={Boolean(validationError)}
             aria-describedby={validationError ? "message-validation-error" : undefined}
@@ -175,6 +184,12 @@ export const MessageForm: React.FC<MessageFormProps> = ({
             </div>
           )}
         </div>
+
+        {pasteTruncated && (
+          <p id="message-paste-notice" role="status" className="text-amber-300 text-xs mt-1.5">
+            Pasted text was cut to {maxChars.toLocaleString("en-IN")} characters, the maximum PayShield checks.
+          </p>
+        )}
 
         {/* Validation Error Message */}
         {validationError && (
@@ -198,11 +213,11 @@ export const MessageForm: React.FC<MessageFormProps> = ({
           <span className="flex items-center space-x-1.5">
             <User className="w-3.5 h-3.5 text-slate-400" />
             <span>Sender ID or Phone Number</span>
-            <span className="text-[11px] font-normal text-slate-400">
+            <span className="text-xs font-normal text-slate-400">
               (Optional)
             </span>
           </span>
-          <span className="text-[11px] text-slate-400 font-normal">
+          <span className="text-xs text-slate-400 font-normal">
             e.g. +919800000001 or VM-SBIINB
           </span>
         </label>

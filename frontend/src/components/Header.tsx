@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="font-display text-2xl font-bold tracking-tight text-white">
                 Pay<span className="text-[#36D6D0]">Shield</span>
               </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase rounded-full bg-[#36D6D0]/15 text-[#36D6D0] border border-[#36D6D0]/30">
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#36D6D0]/15 text-[#36D6D0] border border-[#36D6D0]/30">
                 Awareness Aid
               </span>
             </div>

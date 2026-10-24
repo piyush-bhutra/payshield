@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { AlertTriangle, CheckCircle, Lightbulb, Tag } from "lucide-react";
 import type { Signal } from "../types/api";
 
@@ -8,6 +8,9 @@ interface SignalListProps {
 }
 
 export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
+  // prefers-reduced-motion: no stagger, weight bars appear at full width immediately
+  const reduceMotion = useReducedMotion();
+
   if (!signals || signals.length === 0) {
     return (
       <div className="surface-subtle p-5 rounded-xl border border-emerald-500/20 text-center flex flex-col items-center justify-center space-y-2">
@@ -33,7 +36,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
             {signals.length}
           </span>
         </h3>
-        <span className="text-[11px] text-slate-400">
+        <span className="text-xs text-slate-400">
           Ranked by severity weight
         </span>
       </div>
@@ -48,7 +51,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
               key={signal.id || index}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08, duration: 0.35 }}
+              transition={{ delay: reduceMotion ? 0 : index * 0.08, duration: 0.35 }}
               className="surface-card p-3.5 sm:p-4 rounded-xl border border-[#1E324D] hover:border-[#2A4468] transition-colors"
             >
               <div className="flex items-start justify-between gap-3 mb-2">
@@ -80,7 +83,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
                   className="h-full bg-gradient-to-r from-amber-500 to-rose-500 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${weightPercent}%` }}
-                  transition={{ duration: 0.6, delay: 0.15 + index * 0.05 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.15 + index * 0.05 }}
                 />
               </div>
 
@@ -88,14 +91,14 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
               <div className="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t border-[#1E324D]/60 text-xs">
                 {signal.matched && signal.matched.length > 0 && (
                   <div className="flex items-center space-x-1.5 flex-wrap">
-                    <span className="text-[11px] text-slate-400 flex items-center">
+                    <span className="text-xs text-slate-400 flex items-center">
                       <Tag className="w-3 h-3 mr-1 text-[#36D6D0]" />
                       Matched:
                     </span>
                     {signal.matched.map((m, mi) => (
                       <span
                         key={mi}
-                        className="px-1.5 py-0.5 rounded bg-[#07111F] text-slate-300 font-mono text-[11px] border border-[#1E324D]"
+                        className="px-1.5 py-0.5 rounded bg-[#07111F] text-slate-300 font-mono text-xs border border-[#1E324D]"
                       >
                         "{m}"
                       </span>
@@ -104,7 +107,7 @@ export const SignalList: React.FC<SignalListProps> = ({ signals }) => {
                 )}
 
                 {signal.tip && (
-                  <div className="w-full flex items-start space-x-1.5 mt-1 text-[11px] text-emerald-300/90 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                  <div className="w-full flex items-start space-x-1.5 mt-1 text-xs text-emerald-300/90 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
                     <Lightbulb className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
                     <span>
                       <strong>Safety tip:</strong> {signal.tip}

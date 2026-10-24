@@ -17,6 +17,7 @@ import type {
   TransactionRequest,
 } from "./types/api";
 import { AlertCircle, Cpu } from "lucide-react";
+import { MotionConfig } from "framer-motion";
 
 export const App: React.FC = () => {
   const [isMock, setIsMock] = useState<boolean>(apiService.isMockMode());
@@ -180,6 +181,8 @@ export const App: React.FC = () => {
   };
 
   return (
+    // reducedMotion="user": framer-motion skips transform/layout animations when the OS asks for reduced motion
+    <MotionConfig reducedMotion="user">
     <div className="min-h-screen flex flex-col bg-[#07111F] text-slate-100 font-sans selection:bg-[#36D6D0]/30 selection:text-[#36D6D0]">
       {/* Header */}
       <Header
@@ -266,7 +269,16 @@ export const App: React.FC = () => {
 
         {/* Results Area */}
         <div ref={resultRef} className="w-full max-w-4xl mx-auto mb-10">
-          {analysisResult && (
+          {/* Always-present live region so screen readers announce each new result */}
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {isAnalyzing
+              ? "Analyzing…"
+              : analysisResult && analysisResult.kind === activeTab
+                ? `${analysisResult.risk_label} risk, score ${analysisResult.score} out of 100.${analysisResult.scam_type && analysisResult.risk_label !== "Low" ? ` Likely ${analysisResult.scam_type}.` : ""}`
+                : ""}
+          </p>
+          {/* Only show the result that belongs to the active tab */}
+          {analysisResult && analysisResult.kind === activeTab && (
             <AnalysisResult
               result={analysisResult}
               onReset={handleReset}
@@ -281,6 +293,7 @@ export const App: React.FC = () => {
       {/* Footer */}
       <Footer />
     </div>
+    </MotionConfig>
   );
 };
 

@@ -24,6 +24,13 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
   const mlWeight = breakdown?.ml_weight ?? 0.4;
   const safetyFloorApplied = breakdown?.safety_floor_applied ?? false;
   const isRuleOnly = mlWeight === 0;
+  // Score before the safety floor, same formula as the backend (PRD 7.3)
+  const preFloorScore = isRuleOnly
+    ? Math.min(100, ruleScore)
+    : Math.min(100, Math.round(ruleWeight * ruleScore + mlWeight * mlProbability * 100));
+  const scoreText = safetyFloorApplied && preFloorScore !== score
+    ? `${preFloorScore}, raised to ${score} by the safety floor`
+    : `${score}`;
 
   return (
     <div className="surface-card rounded-xl border border-[#1E324D] overflow-hidden transition-all">
@@ -64,7 +71,7 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                     {score} / 100
                   </span>
                 </div>
-                <div className="text-[11px] text-slate-400 leading-tight">
+                <div className="text-xs text-slate-400 leading-tight">
                   Score = sum of signal weights, capped at 100
                 </div>
               </div>
@@ -74,10 +81,10 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                   <Info className="w-3.5 h-3.5 text-[#36D6D0]" />
                   <span>Rule Formula</span>
                 </div>
-                <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D] font-mono text-[11px] text-[#36D6D0] overflow-x-auto">
+                <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D] font-mono text-xs text-[#36D6D0] overflow-x-auto">
                   <code>Score = sum of signal weights, capped at 100 (score: {score})</code>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-400 leading-relaxed">
                   Transaction risk is evaluated deterministically by testing payment parameters against high-risk conditions: collect requests from new payees, high amounts, odd hours (00:00–05:00), and rapid transaction bursts.
                 </p>
               </div>
@@ -97,7 +104,7 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                       {ruleScore} / 100
                     </span>
                   </div>
-                  <div className="text-[11px] text-slate-400 leading-tight">
+                  <div className="text-xs text-slate-400 leading-tight">
                     Sum of triggered security weights (Weight: {(ruleWeight * 100).toFixed(0)}%)
                   </div>
                 </div>
@@ -113,7 +120,7 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                       {isRuleOnly ? "Inactive" : `${(mlProbability * 100).toFixed(1)}%`}
                     </span>
                   </div>
-                  <div className="text-[11px] text-slate-400 leading-tight">
+                  <div className="text-xs text-slate-400 leading-tight">
                     {isRuleOnly
                       ? "Rule-only mode (ML model not loaded)"
                       : `TF-IDF + Logistic Regression (Weight: ${(mlWeight * 100).toFixed(0)}%)`}
@@ -127,18 +134,18 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                   <Info className="w-3.5 h-3.5 text-[#36D6D0]" />
                   <span>Score Fusion Equation</span>
                 </div>
-                <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D] font-mono text-[11px] text-[#36D6D0] overflow-x-auto">
+                <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D] font-mono text-xs text-[#36D6D0] overflow-x-auto">
                   {isRuleOnly ? (
-                    <code>final_score = rule_score = {ruleScore}</code>
+                    <code>final_score = rule_score = {scoreText}</code>
                   ) : (
                     <code>
-                      final_score = min(100, round({ruleWeight} * {ruleScore} + {mlWeight} * {(mlProbability * 100).toFixed(1)})) = {score}
+                      final_score = min(100, round({ruleWeight} * {ruleScore} + {mlWeight} * {(mlProbability * 100).toFixed(1)})) = {scoreText}
                     </code>
                   )}
                 </div>
 
                 {safetyFloorApplied && (
-                  <div className="flex items-start space-x-2 bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-lg text-amber-300 text-[11px]">
+                  <div className="flex items-start space-x-2 bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-lg text-amber-300 text-xs">
                     <span className="font-bold">🛡️ Safety Floor Triggered:</span>
                     <span>
                       Both a credential request and a suspicious link fired together. By design, the safety floor ensures the score is raised to at least 70 to protect the user.
@@ -146,7 +153,7 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                   </div>
                 )}
 
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-400 leading-relaxed">
                   PayShield fuses explicit deterministic security rules (such as OTP theft, phishing links, and threat keywords) with probabilistic text scoring. Scores below 35 are Low Risk, 35 to 65 are Medium Risk (Review Carefully), and above 65 are High Risk.
                 </p>
               </div>

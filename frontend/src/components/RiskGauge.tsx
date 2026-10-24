@@ -112,7 +112,7 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ score, riskLabel }) => {
             </span>
             <span className="text-xs font-semibold text-slate-400">/100</span>
           </div>
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 mt-0.5">
+          <span className="text-xs uppercase font-bold tracking-wider text-slate-400 mt-0.5">
             Risk Score
           </span>
         </div>
