@@ -3,16 +3,22 @@
 Three modes:
   python -m backend.app.ml.train
       PRD split: 70/15/15 stratified train/validation/test, seed 42. Saves the model trained on the 70%.
-  python -m backend.app.ml.train --test-source gpt [--train-sources claude gemini]
+  python -m backend.app.ml.train --train-sources claude,gemini --test-source gpt
       Cross-source check: train on the chosen sources (default: all others), test on the held-out
-      source(s). Shows whether the model learned scams or just one generator's writing style. Not saved.
+      source(s). Shows whether the model learned scams or one generator's writing style. Not saved.
   python -m backend.app.ml.train --all
-      Retrain on every row and save (for the final demo model). No evaluation.
+      Retrain on every row and save (the final demo model).
 
-Every evaluation prints metrics overall and per source.
+Every evaluation prints metrics overall and per source, plus the adversarial set
+(data/adversarial_tests.csv, never trained on) when that file exists. Each set is scored four ways:
+  rules        rule_score >= 35
+  ML           ml_probability >= 0.5
+  hybrid M+H   final score >= 35  (Medium or High counts as flagged)
+  hybrid High  final score > 65   (strict: only High counts as flagged)
 """
 import argparse
 import re
+from pathlib import Path
 
 import joblib
 import pandas as pd
@@ -23,10 +29,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
 from backend.app.config import DATA_DIR, MODEL_PATH
-from backend.app.rules.engine import RULES
+from backend.app.fusion import fuse, risk_label
+from backend.app.rules.engine import RULES, analyze_message
 
 SEED = 42
 FREE_MAIL = set(RULES["free_mail_domains"])
+METHODS = {
+    "rules": lambda d: d["rule_label"] != "Low",
+    "ML": lambda d: d["ml_probability"] >= 0.5,
+    "hybrid M+H": lambda d: d["label_pred"] != "Low",
+    "hybrid High": lambda d: d["label_pred"] == "High",
+}
 
 
 def sender_type(sender: str | None) -> str:
@@ -69,66 +82,101 @@ def metrics(y_true: list[int], y_pred: list[int]) -> dict:
             "confusion": confusion_matrix(y_true, y_pred, labels=[0, 1]).tolist()}
 
 
-def report(name: str, model: Pipeline, df: pd.DataFrame) -> dict:
-    """Print overall and per-source metrics for `df`; return them as a dict."""
-    df = df.assign(pred=model.predict(features(df)), y=target(df))
-    rows = {"all": metrics(df["y"].tolist(), df["pred"].tolist())}
-    for source, part in df.groupby("source"):
-        rows[source] = metrics(part["y"].tolist(), part["pred"].tolist())
+def score(model: Pipeline, df: pd.DataFrame) -> pd.DataFrame:
+    """Add rule score, ML probability and the fused score/label (PRD 7.3) to every row."""
+    probs = model.predict_proba(features(df))[:, 1]
+    rule_scores, final_scores = [], []
+    for text, sender, p in zip(df["text"], df["sender"], probs):
+        r = analyze_message(text, sender)
+        final, _ = fuse(r.rule_score, float(p), {s.id for s in r.signals})
+        rule_scores.append(r.rule_score)
+        final_scores.append(final)
+    return df.assign(y=target(df), ml_probability=probs, rule_score=rule_scores, score=final_scores,
+                     rule_label=[risk_label(s) for s in rule_scores],
+                     label_pred=[risk_label(s) for s in final_scores])
 
-    print(f"\n{name}")
-    print(f"  {'source':<14}{'n':>5}{'acc':>8}{'prec':>8}{'recall':>8}{'f1':>8}   confusion [[TN,FP],[FN,TP]]")
-    for source, m in rows.items():
-        print(f"  {source:<14}{m['n']:>5}{m['accuracy']:>8.3f}{m['precision']:>8.3f}"
-              f"{m['recall']:>8.3f}{m['f1']:>8.3f}   {m['confusion']}")
-    return rows
+
+def report(name: str, model: Pipeline, df: pd.DataFrame) -> dict:
+    """Print metrics for every method, overall and per source; return {group: {method: metrics}}."""
+    scored = score(model, df)
+    groups = [("all", scored)] + ([(s, part) for s, part in scored.groupby("source")]
+                                  if scored["source"].nunique() > 1 else [])
+    results: dict = {}
+    print(f"\n{name} ({len(df)} rows)")
+    print(f"  {'source':<12}{'method':<13}{'n':>5}{'acc':>7}{'prec':>7}{'recall':>8}{'f1':>7}   [[TN,FP],[FN,TP]]")
+    for group, part in groups:
+        results[group] = {}
+        for method, flagged in METHODS.items():
+            m = metrics(part["y"].tolist(), flagged(part).astype(int).tolist())
+            results[group][method] = m
+            print(f"  {group:<12}{method:<13}{m['n']:>5}{m['accuracy']:>7.3f}{m['precision']:>7.3f}"
+                  f"{m['recall']:>8.3f}{m['f1']:>7.3f}   {m['confusion']}")
+    return results
+
+
+def _sources(values: list[str] | None) -> list[str] | None:
+    """Accept both 'claude,gemini' and 'claude gemini'."""
+    return [s for v in values for s in v.split(",") if s] if values else None
 
 
 def main(argv: list[str] | None = None) -> dict:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--data", default=str(DATA_DIR / "messages.csv"))
+    parser.add_argument("--adversarial", default=str(DATA_DIR / "adversarial_tests.csv"))
     parser.add_argument("--model-out", default=str(MODEL_PATH))
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--test-source", nargs="+", help="hold out these sources as the test set")
-    mode.add_argument("--all", action="store_true", help="train on every row and save; no evaluation")
+    mode.add_argument("--test-source", nargs="+", help="hold out these sources as the test set (comma or space separated)")
+    mode.add_argument("--all", action="store_true", help="train on every row and save")
     parser.add_argument("--train-sources", nargs="+", help="with --test-source: train only on these sources")
     args = parser.parse_args(argv)
+    test_sources, train_sources = _sources(args.test_source), _sources(args.train_sources)
 
     df = pd.read_csv(args.data, dtype=str, keep_default_na=False)
     print(f"Loaded {len(df)} messages from {args.data}")
     print(pd.crosstab(df["source"], df["label"]).to_string())
+    for given in (test_sources or []) + (train_sources or []):
+        if given not in set(df["source"]):
+            parser.error(f"unknown source '{given}'. Known: {sorted(df['source'].unique())}")
+    if train_sources and not test_sources:
+        parser.error("--train-sources needs --test-source")
+
     model = build_pipeline()
     results: dict = {}
-
+    save = True
     if args.all:
         model.fit(features(df), target(df))
-        joblib.dump(model, args.model_out)
-        print(f"\nTrained on all {len(df)} rows. Saved {args.model_out}")
-        return results
-
-    if args.test_source:
-        unknown = set(args.test_source) - set(df["source"])
-        if unknown:
-            parser.error(f"unknown source(s): {sorted(unknown)}")
-        test = df[df["source"].isin(args.test_source)]
-        train = df[~df["source"].isin(args.test_source)]
-        if args.train_sources:
-            train = train[train["source"].isin(args.train_sources)]
-        print(f"\nTrain sources: {sorted(train['source'].unique())} ({len(train)} rows); "
-              f"test sources: {sorted(args.test_source)} ({len(test)} rows)")
+        print(f"\nTrained on all {len(df)} rows.")
+    elif test_sources:
+        test = df[df["source"].isin(test_sources)]
+        train = df[~df["source"].isin(test_sources)]
+        if train_sources:
+            train = train[train["source"].isin(train_sources)]
+        print(f"\nTrain: {sorted(train['source'].unique())} ({len(train)} rows). "
+              f"Test: {sorted(test_sources)} ({len(test)} rows).")
         model.fit(features(train), target(train))
         results["test"] = report("Held-out source(s)", model, test)
-        print("\nModel not saved (cross-source experiment). Use the default mode or --all to save.")
-        return results
+        save = False
+    else:
+        train, rest = train_test_split(df, test_size=0.30, stratify=df["label"], random_state=SEED)
+        val, test = train_test_split(rest, test_size=0.50, stratify=rest["label"], random_state=SEED)
+        print(f"\nSplit: train {len(train)}, validation {len(val)}, test {len(test)} (stratified, seed {SEED})")
+        model.fit(features(train), target(train))
+        results["validation"] = report("Validation split", model, val)
+        results["test"] = report("Test split", model, test)
 
-    train, rest = train_test_split(df, test_size=0.30, stratify=df["label"], random_state=SEED)
-    val, test = train_test_split(rest, test_size=0.50, stratify=rest["label"], random_state=SEED)
-    print(f"\nSplit: train {len(train)}, validation {len(val)}, test {len(test)} (stratified, seed {SEED})")
-    model.fit(features(train), target(train))
-    results["validation"] = report("Validation split", model, val)
-    results["test"] = report("Test split", model, test)
-    joblib.dump(model, args.model_out)
-    print(f"\nSaved {args.model_out}")
+    if Path(args.adversarial).exists():
+        adv = pd.read_csv(args.adversarial, dtype=str, keep_default_na=False)
+        adv = adv.assign(source=adv["source"] if "source" in adv else "adversarial",
+                         sender=adv["sender"] if "sender" in adv else "")
+        results["adversarial"] = report("Adversarial set", model, adv)
+    else:
+        print(f"\n(No adversarial set at {args.adversarial}; skipped.)")
+
+    if save:
+        joblib.dump(model, args.model_out)
+        print(f"\nSaved {args.model_out}")
+    else:
+        print("\nModel not saved (cross-source experiment). Use the default mode or --all to save.")
     return results
 
 

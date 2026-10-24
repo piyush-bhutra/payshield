@@ -1,16 +1,20 @@
 """Merge, clean and validate message CSVs into data/messages.csv.
 
 Each input CSV needs the columns: id,text,sender,label,scam_type,tags,source
+With no file arguments, every CSV in data/raw/ is read, in filename order.
 
 Steps:
 1. Normalise text (Unicode NFKC, collapse whitespace).
-2. Validate label (scam/legit) and scam_type (PRD FR-M9 list; legit rows must be "None").
+2. Validate: non-empty text, unique id, label scam/legit, scam_type from the PRD FR-M9 list
+   (legit rows must be "None").
 3. Drop exact duplicates, then near-duplicates (TF-IDF cosine similarity > threshold).
-   The first occurrence wins, so list the files in priority order. Dropping near-duplicates
+   The first occurrence wins, so file order is priority order. Dropping near-duplicates
    across sources also stops the same message leaking from training into a held-out source.
-4. Print counts per source and label, and how many rows were dropped and why.
+   Rows that near-duplicate a case in data/adversarial_tests.csv are dropped too, so the
+   adversarial set stays fully unseen (PRD 9.3).
+4. Print counts per source, label and scam_type, and how many rows were dropped and why.
 
-Run: python data/validate_dataset.py data/raw/claude.csv data/raw/gpt.csv [--threshold 0.8] [--out data/messages.csv]
+Run: python data/validate_dataset.py [files...] [--threshold 0.8] [--out data/messages.csv]
 """
 import argparse
 import re
@@ -53,11 +57,15 @@ def validate_rows(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     df["label"] = df["label"].str.lower()
     df["scam_type"] = df["scam_type"].map(lambda s: CANONICAL_TYPES.get((s or "None").lower(), s))
 
-    problems, keep = [], []
+    problems, keep, seen_ids = [], [], set()
     for row in df.itertuples():
         reason = None
         if not row.text:
             reason = "empty text"
+        elif not row.id:
+            reason = "empty id"
+        elif row.id in seen_ids:
+            reason = f"duplicate id '{row.id}'"
         elif row.label not in ("scam", "legit"):
             reason = f"bad label '{row.label}'"
         elif row.scam_type not in SCAM_TYPES:
@@ -70,46 +78,67 @@ def validate_rows(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
             reason = "empty source"
         if reason:
             problems.append(f"{row.id or '(no id)'} [{row.source}]: {reason}")
+        else:
+            seen_ids.add(row.id)
         keep.append(reason is None)
     return df[keep].reset_index(drop=True), problems
 
 
-def drop_duplicates(df: pd.DataFrame, threshold: float) -> tuple[pd.DataFrame, int, list[str]]:
+def drop_duplicates(df: pd.DataFrame, threshold: float,
+                    protected: pd.DataFrame | None = None) -> tuple[pd.DataFrame, int, list[str]]:
     """Drop exact then near-duplicate texts, keeping the first occurrence.
 
+    `protected` rows (the adversarial set) count as already kept: messages too close to
+    them are dropped, and they are never written out.
     Returns (kept rows, exact count, near-duplicate descriptions).
     """
-    key = df["text"].str.lower()
-    exact = key.duplicated()
-    df = df[~exact].reset_index(drop=True)
+    protected = protected if protected is not None else df.iloc[0:0]
+    combined = pd.concat([protected[["id", "text", "source"]], df], ignore_index=True)
+    n_protected = len(protected)
 
-    vectors = TfidfVectorizer(ngram_range=(1, 2)).fit_transform(df["text"].str.lower())
+    exact = combined["text"].str.lower().duplicated()
+    exact[:n_protected] = False
+    combined = combined[~exact].reset_index(drop=True)
+
+    vectors = TfidfVectorizer(ngram_range=(1, 2)).fit_transform(combined["text"].str.lower())
     sims = (vectors @ vectors.T).toarray()  # rows are L2-normalised, so this is cosine similarity
     # ponytail: dense n x n matrix, fine for a few thousand rows; chunk it if the dataset grows past ~10k.
-    kept: list[int] = []
+    kept: list[int] = list(range(n_protected))
     near: list[str] = []
-    for i in range(len(df)):
+    for i in range(n_protected, len(combined)):
         match = next((j for j in kept if sims[i, j] > threshold), None)
         if match is None:
             kept.append(i)
         else:
-            near.append(f"{df.at[i, 'id']} [{df.at[i, 'source']}] ~ {df.at[match, 'id']} "
-                        f"[{df.at[match, 'source']}] (similarity {sims[i, match]:.2f})")
-    return df.iloc[kept].reset_index(drop=True), int(exact.sum()), near
+            near.append(f"{combined.at[i, 'id']} [{combined.at[i, 'source']}] ~ {combined.at[match, 'id']} "
+                        f"[{combined.at[match, 'source']}] (similarity {sims[i, match]:.2f})")
+    return combined.iloc[kept[n_protected:]][df.columns].reset_index(drop=True), int(exact.sum()), near
 
 
 def main(argv: list[str] | None = None) -> pd.DataFrame:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("csv", nargs="+", type=Path, help="input CSVs, in priority order")
+    parser.add_argument("csv", nargs="*", type=Path, help="input CSVs in priority order (default: data/raw/*.csv)")
     parser.add_argument("--threshold", type=float, default=0.8, help="near-duplicate cosine similarity (default 0.8)")
     parser.add_argument("--out", type=Path, default=ROOT / "data" / "messages.csv")
+    parser.add_argument("--adversarial", type=Path, default=ROOT / "data" / "adversarial_tests.csv",
+                        help="cases kept out of training (skipped if the file does not exist)")
     args = parser.parse_args(argv)
 
-    raw = load(args.csv)
+    files = args.csv or sorted((ROOT / "data" / "raw").glob("*.csv"))
+    if not files:
+        sys.exit("ERROR: no input CSVs (data/raw/ is empty).")
+    raw = load(files)
     valid, problems = validate_rows(raw)
-    clean, n_exact, near = drop_duplicates(valid, args.threshold)
 
-    print(f"Loaded {len(raw)} rows from {len(args.csv)} file(s).")
+    protected = None
+    if args.adversarial.exists():
+        protected = pd.read_csv(args.adversarial, dtype=str, keep_default_na=False)
+        protected = protected.assign(text=protected["text"].map(normalise), source="adversarial",
+                                     id=protected.get("id", pd.Series(range(len(protected)))).astype(str))
+        print(f"Protecting {len(protected)} adversarial cases from {args.adversarial}")
+    clean, n_exact, near = drop_duplicates(valid, args.threshold, protected)
+
+    print(f"Loaded {len(raw)} rows from {len(files)} file(s): {', '.join(f.name for f in files)}")
     print(f"Dropped {len(problems)} invalid, {n_exact} exact duplicates, {len(near)} near-duplicates "
           f"(similarity > {args.threshold}). Kept {len(clean)}.")
     for title, lines in (("Invalid rows", problems), ("Near-duplicates (dropped ~ kept)", near)):
@@ -119,8 +148,8 @@ def main(argv: list[str] | None = None) -> pd.DataFrame:
 
     print("\nRows per source and label:")
     print(pd.crosstab(clean["source"], clean["label"], margins=True, margins_name="total").to_string())
-    print("\nRows per scam_type:")
-    print(clean["scam_type"].value_counts().to_string())
+    print("\nRows per scam_type and source:")
+    print(pd.crosstab(clean["scam_type"], clean["source"], margins=True, margins_name="total").to_string())
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     clean.to_csv(args.out, index=False)

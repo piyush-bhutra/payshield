@@ -1,0 +1,121 @@
+id,text,sender,label,scam_type,tags,source
+c001,"Dear customer, your SBI YONO account KYC has expired. Update immediately at http://sbi-kyc-update.top/login or your account will be blocked today.",9000011101,scam,Fake KYC,link;lookalike;urgent;sender_mismatch,claude
+c002,"HDFC Bank: Your PAN is not linked to your account. Update now to avoid restrictions. bit.ly/3kYc9Zq",VM-HDFCKY,scam,Fake KYC,shortener;urgent;spoofed_header,claude
+c003,"Priya ji aapka Paytm KYC pending hai. Aaj hi verify karein warna wallet band ho jayega. Link: paytm-kycverify.xyz/start",8000022203,scam,Fake KYC,hinglish;link;urgent;lookalike,claude
+c004,"Your ICICI Bank KYC is incomplete. Call our verification officer on 9000011104 within 2 hours to avoid account freeze.",9000011104,scam,Fake KYC,no_link;phone_request;urgent;sender_mismatch,claude
+c005,"Hello, this is a gentle reminder from your bank to complete Video KYC for your savings account. Please click the secure link below at your convenience: https://icici-videokyc.in.net/verify",8000022205,scam,Fake KYC,polite;link;lookalike,claude
+c006,"Dear Custmer, ur Axis Bnak KYC is expired pls update now http://axisbank-kyc.click/upd or acct will be suspnded",9000011106,scam,Fake KYC,typo;link;urgent,claude
+c007,"SBI KYC expired. Update: tinyurl.com/sbikyc77x",9000011107,scam,Fake KYC,short;shortener,claude
+c008,"Your Aadhaar is not linked with your bank account and your subsidy will stop. Share your Aadhaar number and OTP with our agent to complete linking.",8000022208,scam,Fake KYC,otp_request;credential;no_link;urgent,claude
+c009,"Sir aapke PNB account ka KYC update nahi hua hai. Agle 24 ghante me update nahi kiya to account freeze ho jayega. Abhi update karein: pnb-kyc-secure.top",9000011109,scam,Fake KYC,hinglish;link;urgent;lookalike,claude
+c010,"Kotak Mahindra: KYC verification failed. Re-submit documents within 24 hrs at https://kotak-kycportal.xyz/re-submit to keep your account active.",CP-KOTKYC,scam,Fake KYC,link;lookalike;urgent;spoofed_header,claude
+c011,"VIT Notice: Your VTOP student account will be suspended in 24 hours due to unusual activity. Verify now: https://vtop-vit-verify.top/login",vit.helpdesk@mail-support.top,scam,Account suspension,link;lookalike;urgent;sender_mismatch;university,claude
+c012,"Your VIT email password expires today. Click here to keep your current password: http://vit-mailreset.click/keep",noreply@vit-ac-in.com,scam,Account suspension,link;lookalike;urgent;university;credential,claude
+c013,"Your Netflix payment failed and the account will be suspended. Update billing now: netflix-billing-help.top/pay",9000011113,scam,Account suspension,link;urgent;lookalike,claude
+c014,"Dear user, your UPI ID has been temporarily disabled due to security reasons. Re-activate it by entering your UPI PIN at upi-reactivate.xyz",9000011114,scam,Account suspension,link;urgent;credential,claude
+c015,"Aapka Jio number kal band kar diya jayega. Abhi recharge verify karein: jio-verify-now.click ya 9000011115 par call karein.",9000011115,scam,Account suspension,hinglish;link;phone_request;urgent,claude
+c016,"Instagram: We detected a login from a new device. Your account will be disabled in 2 hours unless you confirm at insta-secure-login.top",9000011116,scam,Account suspension,link;urgent;lookalike,claude
+c017,"Your SBI debit card has been blocked. To unblock it, share your card number, expiry date and CVV on this number.",9000011117,scam,Account suspension,no_link;credential;urgent;sender_mismatch,claude
+c018,"Hi, we noticed your wallet profile is incomplete. For uninterrupted service please re-verify your details at https://phonepe-profile.help/verify when you get a moment.",8000022218,scam,Account suspension,polite;link;lookalike,claude
+c019,"ALERT from Student Support Office: Several accounts in your batch were flagged for policy violations. Your VTOP login and registered email will be locked from 6 PM today. To retain access, log in again through the portal below and confirm your registration number and password. Portal: https://vtop-relogin.in.net",9000011119,scam,Account suspension,long;link;urgent;university;credential;lookalike,claude
+c020,"Aapka Gpay acc suspnd ho gya h. Reactivate krne k liye link click kre: bit.ly/3Gp4yX9",9000011120,scam,Account suspension,hinglish;typo;shortener,claude
+c021,"Congratulations! You have won Rs 25,00,000 in the Paytm Lucky Draw. Pay Rs 4,999 processing fee to claim your prize. Reply YES.",9000011121,scam,Lottery/prize,no_link;fee_request,claude
+c022,"You are the lucky winner of a Samsung Galaxy S24! Claim your prize before midnight: claim-galaxy-prize.top/win",9000011122,scam,Lottery/prize,link;urgent;lookalike,claude
+c023,"Badhai ho! Aapne KBC lottery me 10 lakh jeete hain. Inaam lene ke liye 2,500 rupaye registration fee bhejein UPI: kbcprize@oksbi",9000011123,scam,Lottery/prize,hinglish;fee_request;no_link,claude
+c024,"Dear customer, you have been selected for a Flipkart Big Billion lucky coupon worth Rs 10,000. Tap to redeem: https://flipkart-lucky-coupon.in.net/redeem",8000022224,scam,Lottery/prize,link;lookalike,claude
+c025,"You won Rs 5,000 cashback voucher! Collect: cutt.ly/Wn9xK2a",9000011125,scam,Lottery/prize,short;shortener,claude
+c026,"Hello! As a valued Airtel customer you have been chosen to receive a free 1-year recharge. Visit our offer page to receive it: airtel-reward-center.xyz",8000022226,scam,Lottery/prize,polite;link;lookalike,claude
+c027,"WINNER NOTIFICATION: Your mobile number has been randomly selected in the Global Digital Payments Lottery 2026 and has won USD 750,000. To release your funds you must contact our claims manager and pay the courier and tax clearance charges. Do not share this message. Contact: claims.global2026@mail-claims.top",claims.global2026@mail-claims.top,scam,Lottery/prize,long;no_link;fee_request;sender_mismatch,claude
+c028,"Hello, I am calling from SBI. An OTP has been sent to your phone for card verification. Please read it out to me to stop the transaction.",9000011128,scam,OTP theft,no_link;otp_request;urgent,claude
+c029,"Sorry, I sent a 6-digit code to your number by mistake while registering. Can you forward it to me please? Very urgent",9000011129,scam,OTP theft,no_link;otp_request;urgent;polite,claude
+c030,"Your Amazon order refund of Rs 1,899 is ready. To receive it, send the OTP you just got on your phone to this number.",9000011130,scam,OTP theft,otp_request;no_link;sender_mismatch,claude
+c031,"Bhai mera OTP galti se tere number pe aa gaya hai, jaldi bhej de please, bahut zaruri hai.",9000011131,scam,OTP theft,hinglish;otp_request;short;no_link,claude
+c032,"HDFC NetBanking: To cancel the unauthorised transaction of Rs 48,200 reply with your OTP and last 4 digits of your debit card.",9000011132,scam,OTP theft,otp_request;credential;urgent;no_link;sender_mismatch,claude
+c033,"Google Pay support: your account needs re-verification. Please confirm the 6-digit code you will receive in the next minute by replying to this message.",9000011133,scam,OTP theft,otp_request;no_link;polite,claude
+c034,"Ur bank acount has been hacked!! share otp now to secure it. dont tell anyone. call 9000011134",9000011134,scam,OTP theft,typo;otp_request;urgent;phone_request,claude
+c035,"Good evening. This is the card security team. We have flagged an attempted purchase on your credit card and have placed it on hold for your safety. To release the hold we need to confirm that it is really you. Please read out the one-time password sent to your registered mobile number to the officer who will call you shortly.",9000011135,scam,OTP theft,long;polite;otp_request;no_link,claude
+c036,"Income Tax Dept: You are eligible for a tax refund of Rs 15,490. Submit your bank details at incometax-refund-claim.top to receive it.",9000011136,scam,Refund/cashback,link;credential;sender_mismatch;lookalike,claude
+c037,"Your electricity bill overpayment of Rs 1,120 will be refunded. Click to enter your account details: bit.ly/3Rf8nQd",9000011137,scam,Refund/cashback,shortener;credential;utility,claude
+c038,"Aapke Amazon order ka refund Rs 2,340 atka hua hai. Refund lene ke liye card details update karein: amazon-refund-help.click",9000011138,scam,Refund/cashback,hinglish;link;credential;lookalike,claude
+c039,"ICICI Bank: Redeem 9,850 reward points worth Rs 4,925 before they expire tonight: icici-rewards-redeem.xyz/claim",JD-ICICRW,scam,Refund/cashback,link;lookalike;urgent;spoofed_header,claude
+c040,"Paytm cashback of Rs 500 is waiting for you. Scan the attached QR code with your UPI app to receive the money.",9000011140,scam,Refund/cashback,qr;no_link,claude
+c041,"Refund Rs 899 pending. Verify: tinyurl.com/rfnd88a",9000011141,scam,Refund/cashback,short;shortener,claude
+c042,"Dear customer, we are sorry for the inconvenience with your recent order. A refund of Rs 3,200 has been initiated; kindly confirm your card number and expiry to receive it.",9000011142,scam,Refund/cashback,polite;credential;no_link,claude
+c043,"Gas subsidy of Rs 1,350 has been approved for your LPG connection. Claim it at lpg-subsidy-portal.in.net with your bank details.",9000011143,scam,Refund/cashback,link;credential;lookalike,claude
+c044,"Hi, I am buying your sofa listed on OLX. I have sent Rs 12,000 as a payment request, please accept it on your UPI app to receive the money.",9000011144,scam,Collect-request scam,no_link;collect_request,claude
+c045,"Accept the collect request of Rs 1 to verify your UPI ID and receive your reward.",9000011145,scam,Collect-request scam,short;collect_request;no_link,claude
+c046,"Bhai maine tumhe 5000 bheje hain, UPI pe request aayi hogi, bas approve kar do paise aa jayenge.",9000011146,scam,Collect-request scam,hinglish;collect_request;no_link,claude
+c047,"Your PhonePe cashback of Rs 250 is ready. Approve the pending request in your app and enter your UPI PIN to receive it.",9000011147,scam,Collect-request scam,collect_request;credential;no_link,claude
+c048,"Sir I paid you Rs 8,000 by mistake. Kindly send it back to my number 9000011148 on UPI immediately. Screenshot attached.",9000011148,scam,Other,wrong_transfer;urgent;no_link,claude
+c049,"Rental deposit sent. A request of Rs 20,000 is pending on your UPI app, please approve it to confirm the booking. Thanks.",9000011149,scam,Collect-request scam,polite;collect_request;no_link,claude
+c050,"Pay Rs 1 to verify your account and receive your pending Rs 15,000 refund immediately. UPI: refunddesk@okaxis",9000011150,scam,Collect-request scam,urgent;collect_request;no_link,claude
+c051,"Hello sir, this is regarding the second-hand laptop you posted for sale. I am an army officer posted at a remote location and cannot visit in person. Our payment system will send you a request, please accept it and enter your PIN, and the amount will be credited to your account. A courier will collect the laptop tomorrow.",9000011151,scam,Collect-request scam,long;collect_request;credential;no_link,claude
+c052,"Part-time job offer: earn Rs 3,000 daily by liking YouTube videos. Join our Telegram group now: t.me/earnlikes_hub",9000011152,scam,Other,job;link,claude
+c053,"Ghar baithe Rs 5000 roz kamaye. Bas products ko rating dein. WhatsApp karein 9000011153. Pehle 500 deposit karna hoga.",9000011153,scam,Other,hinglish;job;fee_request;phone_request;no_link,claude
+c054,"Hi! We found your profile on a job portal. We have an online data entry role with flexible hours. Pay a refundable registration of Rs 1,200 to begin.",9000011154,scam,Other,polite;job;fee_request;no_link,claude
+c055,"India Post: Your parcel is held at customs. Pay Rs 49 redelivery fee at indiapost-redeliver.top to schedule delivery.",9000011155,scam,Other,delivery;link;fee_request;lookalike,claude
+c056,"Package undelivered. Confirm address: cutt.ly/Pk82LmQ",9000011156,scam,Other,short;shortener;delivery,claude
+c057,"Your electricity will be disconnected tonight at 9:30 PM as the previous month bill is not updated. Call our officer 9000011157 immediately.",9000011157,scam,Other,utility;phone_request;urgent;no_link,claude
+c058,"Electricity Board: Your power bill is overdue. Pay now to avoid disconnection: eb-billpay-online.top/pay",9000011158,scam,Other,utility;link;urgent;lookalike,claude
+c059,"e-Challan: Traffic violation fine Rs 500 against your vehicle. Pay within 24 hrs to avoid court notice: echallan-pay.xyz/vehicle",9000011159,scam,Other,link;urgent;lookalike;fee_request,claude
+c060,"Pre-approved loan of Rs 2,00,000 for you. No documents needed. Pay Rs 999 processing fee to receive the amount instantly: quickloan-now.click",9000011160,scam,Other,link;fee_request;urgent,claude
+c061,"Rs 1,250.00 debited from A/c XX4821 on 24-Oct-26 to VPA grocer.mart@okhdfc (UPI Ref 629184730215). If not you, call 1800-000-1234. -HDFC Bank",VM-HDFCBK,legit,None,bank_alert;no_link,claude
+c062,"SBI: Rs 45,000.00 credited to your A/c XX7712 on 23-Oct-26 by NEFT from ACME TECH PVT LTD. Avl Bal Rs 61,208.50. -SBI",AX-SBIINB,legit,None,bank_alert;no_link,claude
+c063,"ICICI Bank Acct XX3390 debited Rs 899.00 on 22-Oct-26 for Netflix. Avl Bal: Rs 12,455.10. Not you? Block your card via the iMobile app or call customer care on the number behind your card.",JD-ICICIB,legit,None,bank_alert;no_link,claude
+c064,"Axis Bank: INR 2,300.00 spent on Card XX1045 at SWIGGY on 24-Oct-26 21:14. Avl limit INR 77,700. Not you? SMS BLOCK 1045 to 09000-00000.",VK-AXISBK,legit,None,bank_alert;no_link,claude
+c065,"Your a/c XX6521 is credited with Rs 500.00 on 24-Oct-26 by UPI from Rahul K (ref 629200118842). -Kotak Bank",CP-KOTAKB,legit,None,bank_alert;no_link,claude
+c066,"Dear Customer, Rs 15,000 withdrawn from ATM on 24-Oct-26 at 14:02, A/c XX0983. Avl Bal Rs 8,430.22. -PNB",BZ-PNBSMS,legit,None,bank_alert;no_link,claude
+c067,"HDFC Bank Credit Card XX7755: Your statement of Rs 18,642.00 is generated. Total due Rs 18,642.00, Min due Rs 930.00, due date 12-Nov-26. View your statement at https://www.hdfcbank.com or on the MyCards app.",VM-HDFCBK,legit,None,bank_alert;official_link;long,claude
+c068,"Your SBI Fixed Deposit of Rs 1,00,000 matures on 30-Oct-26. Visit your branch or YONO to choose renewal options. -SBI",AX-SBIINB,legit,None,bank_alert;no_link,claude
+c069,"UPI mandate: Rs 199.00 will be auto-debited on 26-Oct-26 for Spotify from A/c XX4821. To manage or cancel, open your UPI app and go to AutoPay. -HDFC Bank",VM-HDFCBK,legit,None,bank_alert;no_link,claude
+c070,"Salary credited: INR 62,310.00 has been credited to your A/c XX1180 on 24-Oct-26. Avl Bal INR 74,518.40. -Federal Bank",VM-FEDBNK,legit,None,bank_alert;no_link,claude
+c071,"482913 is your OTP for login to HDFC NetBanking. Do not share it with anyone. Valid for 10 mins. -HDFC Bank",VM-HDFCBK,legit,None,otp_warning;bank_alert,claude
+c072,"Use 7305 as your Amazon OTP to complete your order. Do not share it with anyone, including delivery agents.",AD-AMAZON,legit,None,otp_warning;short,claude
+c073,"OTP for transaction of Rs 1,499.00 at MYNTRA on Card XX1045 is 551027. Valid for 5 mins. Never share OTP with anyone. -Axis Bank",VK-AXISBK,legit,None,otp_warning;bank_alert,claude
+c074,"Your VTOP verification code is 390284. It expires in 5 minutes. VIT will never ask for this code.",VK-VITVTP,legit,None,otp_warning;university,claude
+c075,"9821 is your Swiggy login code. Do not share this code with anyone. We will never call you to ask for it.",VK-SWIGGY,legit,None,otp_warning;short,claude
+c076,"G-184502 is your Google verification code. Do not share it with anyone.",Google,legit,None,otp_warning;short,claude
+c077,"PhonePe: Your OTP for UPI PIN reset is 603915. Valid for 10 minutes. Do not share it with anyone, PhonePe will never ask for it.",VM-PHONEP,legit,None,otp_warning;bank_alert,claude
+c078,"Aapka Paytm login OTP 220481 hai. Isse kisi ke saath share na karein. 10 minute tak valid.",AX-PAYTMB,legit,None,hinglish;otp_warning,claude
+c079,"Paid Rs 340.00 to Chai Point via PhonePe. UPI Ref 629301177654. Debited from A/c XX4821.",VM-PHONEP,legit,None,transactional;no_link,claude
+c080,"Your Jio recharge of Rs 299 is successful. Validity 28 days, 2GB/day, till 21-Nov-26. Check your balance on the MyJio app.",JM-JIOINF,legit,None,transactional;no_link,claude
+c081,"Reminder: Your loan EMI of Rs 7,450.00 is due on 05-Nov-26. Please maintain sufficient balance in A/c XX1180. -HDFC Bank",VM-HDFCBK,legit,None,bank_alert;no_link,claude
+c082,"BSES: Your electricity bill of Rs 1,846 for Sep-26 is generated. Due date 10-Nov-26. Pay through the official app or https://www.bsesdelhi.com",VM-BSESDL,legit,None,utility;official_link,claude
+c083,"Your LPG cylinder booking is confirmed. Delivery expected within 2 days. A delivery code will be sent on dispatch.",VM-INDGAS,legit,None,transactional;delivery;no_link,claude
+c084,"Airtel: Your postpaid bill of Rs 599 is due on 02-Nov-26. Pay on the Airtel Thanks app to avoid a late fee.",AIRTEL,legit,None,transactional;no_link,claude
+c085,"Payment of Rs 2,199.00 to Zomato received. Order #48231 is being prepared.",VK-ZOMATO,legit,None,transactional;short,claude
+c086,"Hi Aarav, your tuition fee instalment of Rs 15,000 has been received. Receipt no. FR-20931. Thank you. -Account Section",VK-VITFEE,legit,None,university;transactional,claude
+c087,"LIC: Your premium of Rs 4,200 for policy ending 7731 is due on 15-Nov-26. Pay via LIC Pay or visit https://licindia.in",LM-LICIND,legit,None,transactional;official_link,claude
+c088,"IRCTC: Your ticket PNR 2418830027 is confirmed. Train 12627 Karnataka Express, 26-Oct-26, Coach S4 Seat 31. Happy journey!",VM-IRCTCI,legit,None,transactional;no_link,claude
+c089,"Your Uber ride is on the way. Driver Ramesh (KA03 AB 1234) arrives in 4 mins. Share PIN 4821 with the driver to start your trip.",UBER,legit,None,transactional;tricky;no_link,claude
+c090,"Amazon: Your package will be delivered today by 8 PM. Track it here: https://www.amazon.in/progress-tracker",AD-AMAZON,legit,None,delivery;official_link,claude
+c091,"Your Flipkart order #OD4417291 has been shipped via Ecom Express. Expected delivery 27-Oct. Track at https://www.flipkart.com/orders",VK-FLPKRT,legit,None,delivery;official_link,claude
+c092,"Hi, I am your Blinkit delivery partner. I have reached your gate. Please come down to collect the order.",9000011192,legit,None,delivery;short;personal_sender,claude
+c093,"Sir main courier wala bol raha hu, aapka parcel gate pe pahunch gaya hai. Security ko bol dijiye ya neeche aa jaiye.",9000011193,legit,None,hinglish;delivery;personal_sender,claude
+c094,"Delhivery: We attempted delivery of your shipment AWB 8812340097 but could not reach you. Reschedule at https://www.delhivery.com/track or reply 1 for a call back.",VM-DELHVY,legit,None,delivery;official_link,claude
+c095,"VIT: Your Winter Semester registration closes on 28-Oct-26. Complete course registration on VTOP at https://vtop.vit.ac.in. -Academics",VK-VITUNI,legit,None,university;urgent;official_link,claude
+c096,"Dear students, CAT-2 hall tickets are now available on VTOP. Download and carry a printed copy along with your ID card.",VK-VITUNI,legit,None,university;no_link,claude
+c097,"Attendance alert: Your attendance in BITE303L is 71%, below the required 75%. Please meet your faculty advisor before 30-Oct-26.",VK-VITUNI,legit,None,university;urgent;no_link,claude
+c098,"Reminder: Fee payment for the next semester is due by 05-Nov-26. Pay only through the official VTOP portal; the university never asks for fees via UPI to personal numbers.",VK-VITFEE,legit,None,university;tricky;long;no_link,claude
+c099,"AI Innovate-A-Thon: online round starts 24-Oct-26 5:00 PM on MS Teams. In-person demo 25-Oct, 9 AM at SJT-G07. Bring your laptop and ID.",VK-VITUNI,legit,None,university;no_link,claude
+c100,"Library notice: Operating System Concepts issued to you is due on 29-Oct-26. Renew at https://library.vit.ac.in or return it to the counter to avoid a fine of Rs 2 per day.",VK-VITLIB,legit,None,university;official_link,claude
+c101,"Security alert: A new device signed in to your Google account. If this was you, no action is needed. If not, secure your account at https://myaccount.google.com/security",Google,legit,None,tricky;official_link;urgent,claude
+c102,"HDFC Bank: We noticed a transaction of Rs 24,900 on your card at an overseas merchant. Reply YES if this was you, or NO to block your card. Never share your OTP or PIN.",VM-HDFCBK,legit,None,tricky;bank_alert;urgent;otp_warning;no_link,claude
+c103,"Your SBI debit card ending 2290 will expire in 30 days. A new card has been dispatched to your registered address. Do not share OTP or PIN with anyone. -SBI",AX-SBIINB,legit,None,tricky;bank_alert;otp_warning;no_link,claude
+c104,"Final reminder: Your car insurance policy expires tomorrow. Renew on the official insurer app or at https://www.acko.com to stay covered.",VM-ACKOIN,legit,None,tricky;urgent;official_link,claude
+c105,"Income Tax Department: Your return for AY 2026-27 has been successfully e-verified. Acknowledgement no. 41100228. No further action is required.",VM-ITDEPT,legit,None,tricky;no_link,claude
+c106,"Swiggy: Flat 40% off up to Rs 100 on your next order. Use code WELCOME40. Valid till 31-Oct-26. T&C apply. https://www.swiggy.com",VK-SWIGGY,legit,None,promo;official_link,claude
+c107,"Myntra End of Season Sale starts tomorrow! Get up to 60% off on top brands. Shop at https://www.myntra.com. Reply STOP to opt out.",VM-MYNTRA,legit,None,promo;official_link,claude
+c108,"Diwali dhamaka! Is weekend har kharid par 10% cashback paye. Offer sirf 3 din ke liye. Terms apply. -Reliance Digital",VM-RELDIG,legit,None,hinglish;promo;urgent;no_link,claude
+c109,"Hey, are you coming to the lab at 3? I will save you a seat.",9000012109,legit,None,chat;short,claude
+c110,"Bhai kal ka assignment submit kar diya? Deadline 11:59 tak hai.",9000012110,legit,None,hinglish;chat;short,claude
+c111,"Beta, paise bhej diye hain UPI se. Check kar lena aur khana time pe khana.",9000012111,legit,None,hinglish;chat;tricky,claude
+c112,"Can you send me the notes for Module 4? I missed Tuesday's class.",9000012112,legit,None,chat;short,claude
+c113,"Dinner at 8? I will book the table. Let me know how many of us are coming.",9000012113,legit,None,chat;short,claude
+c114,"Yaar tera Rs 500 kal tak wapas kar dunga, UPI pe bhej dunga pakka.",9000012114,legit,None,hinglish;chat;tricky,claude
+c115,"Happy birthday Rohan! Have a great year ahead. Let us celebrate this weekend.",9000012115,legit,None,chat;short,claude
+c116,"Your OTP is the 6-digit number on the screen, right? The app asked me too, I entered mine and it worked.",9000012116,legit,None,chat;tricky,claude
+c117,"Prof. Mehta has rescheduled tomorrow's lab to 2 PM. Please inform your group members.",9000012117,legit,None,university;chat,claude
+c118,"Bhai hackathon ke liye team ka naam kya rakhe? Kuch chhota sa chahiye.",9000012118,legit,None,hinglish;chat;short,claude
+c119,"Reached the hostel. The wifi is down again, I will call you in the morning.",9000012119,legit,None,chat;short,claude
+c120,"Mama ka call aaya tha, bol rahe the sunday ko ghar aa jao. Ticket book kar du?",9000012120,legit,None,hinglish;chat;short,claude
