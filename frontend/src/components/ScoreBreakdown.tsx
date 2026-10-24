@@ -24,6 +24,13 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
   const mlWeight = breakdown?.ml_weight ?? 0.4;
   const safetyFloorApplied = breakdown?.safety_floor_applied ?? false;
   const isRuleOnly = mlWeight === 0;
+  // Score before the safety floor, same formula as the backend (PRD 7.3)
+  const preFloorScore = isRuleOnly
+    ? Math.min(100, ruleScore)
+    : Math.min(100, Math.round(ruleWeight * ruleScore + mlWeight * mlProbability * 100));
+  const scoreText = safetyFloorApplied && preFloorScore !== score
+    ? `${preFloorScore}, raised to ${score} by the safety floor`
+    : `${score}`;
 
   return (
     <div className="surface-card rounded-xl border border-[#1E324D] overflow-hidden transition-all">
@@ -129,10 +136,10 @@ export const ScoreBreakdown: React.FC<ScoreBreakdownProps> = ({
                 </div>
                 <div className="bg-[#07111F] p-2.5 rounded-lg border border-[#1E324D] font-mono text-xs text-[#36D6D0] overflow-x-auto">
                   {isRuleOnly ? (
-                    <code>final_score = rule_score = {ruleScore}</code>
+                    <code>final_score = rule_score = {scoreText}</code>
                   ) : (
                     <code>
-                      final_score = min(100, round({ruleWeight} * {ruleScore} + {mlWeight} * {(mlProbability * 100).toFixed(1)})) = {score}
+                      final_score = min(100, round({ruleWeight} * {ruleScore} + {mlWeight} * {(mlProbability * 100).toFixed(1)})) = {scoreText}
                     </code>
                   )}
                 </div>
