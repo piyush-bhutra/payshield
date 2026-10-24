@@ -31,6 +31,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
   onClear,
 }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [pasteTruncated, setPasteTruncated] = useState(false);
 
   const maxChars = 2000;
   const charsRemaining = maxChars - text.length;
@@ -54,6 +55,7 @@ export const MessageForm: React.FC<MessageFormProps> = ({
     onTextChange("");
     onSenderChange("");
     setValidationError(null);
+    setPasteTruncated(false);
     onClear();
   };
 
@@ -152,6 +154,13 @@ export const MessageForm: React.FC<MessageFormProps> = ({
             onChange={(e) => {
               onTextChange(e.target.value);
               if (validationError) setValidationError(null);
+              if (pasteTruncated && e.target.value.length < maxChars) setPasteTruncated(false);
+            }}
+            onPaste={(e) => {
+              // maxLength silently cuts long pastes; tell the user when that happens
+              const ta = e.currentTarget;
+              const replaced = ta.selectionEnd - ta.selectionStart;
+              setPasteTruncated(text.length - replaced + e.clipboardData.getData("text").length > maxChars);
             }}
             placeholder="Paste suspicious SMS, WhatsApp notice, reward alert, or KYC suspension message here (e.g. 'Dear customer, your SBI KYC expires today...')"
             disabled={isAnalyzing}
@@ -175,6 +184,12 @@ export const MessageForm: React.FC<MessageFormProps> = ({
             </div>
           )}
         </div>
+
+        {pasteTruncated && (
+          <p id="message-paste-notice" role="status" className="text-amber-300 text-xs mt-1.5">
+            Pasted text was cut to {maxChars.toLocaleString("en-IN")} characters, the maximum PayShield checks.
+          </p>
+        )}
 
         {/* Validation Error Message */}
         {validationError && (
