@@ -114,6 +114,16 @@ def report(name: str, model: Pipeline, df: pd.DataFrame) -> dict:
     return results
 
 
+def print_cases(name: str, scored: pd.DataFrame) -> None:
+    """One line per message: label, rule score, ML probability, final score, risk label, correct or not."""
+    print(f"\n{name}")
+    print(f"  {'id':<7}{'label':<7}{'rule':>5}{'ML p':>7}{'final':>7}  {'risk':<8}correct")
+    for r in scored.itertuples():
+        correct = (r.label_pred != "Low") == (r.label == "scam")
+        print(f"  {r.id:<7}{r.label:<7}{r.rule_score:>5}{r.ml_probability:>7.2f}{r.score:>7}  {r.label_pred:<8}"
+              f"{'Y' if correct else 'N'}")
+
+
 def _sources(values: list[str] | None) -> list[str] | None:
     """Accept both 'claude,gemini' and 'claude gemini'."""
     return [s for v in values for s in v.split(",") if s] if values else None
@@ -167,8 +177,10 @@ def main(argv: list[str] | None = None) -> dict:
     # The adversarial set is a held-out stress test: only the final --all model is scored on it,
     # never experiments, and only text + sender are used (the notes column is for humans).
     if args.all and Path(args.adversarial).exists():
-        adv = pd.read_csv(args.adversarial, dtype=str, keep_default_na=False)
-        results["adversarial"] = report("Adversarial set", model, adv[["text", "sender", "label", "source"]])
+        adv = pd.read_csv(args.adversarial, dtype=str, keep_default_na=False)[["id", "text", "sender", "label", "source"]]
+        print_cases("Adversarial set, per case (correct = flagged Medium/High for scam, Low for legit)",
+                    score(model, adv))
+        results["adversarial"] = report("Adversarial set", model, adv)
     elif args.all:
         print(f"\n(No adversarial set at {args.adversarial}; skipped.)")
 

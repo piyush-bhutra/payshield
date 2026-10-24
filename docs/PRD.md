@@ -140,7 +140,7 @@ Priority: **P0** = Tier 1 (mandatory), **P1** = Tier 2, **P2** = Tier 3.
    |-- Preprocess: normalise text, extract URLs, numbers, sender domain
    |-- Rule engine: signals.json -> matched signals, weights, highlight offsets
    |-- ML classifier: TF-IDF + Logistic Regression -> scam probability
-   |-- Fusion: 0.6 * rule_score + 0.4 * ml_probability * 100 (+ safety floor)
+   |-- Fusion: 0.4 * rule_score + 0.6 * ml_probability * 100 (+ safety floor)
    |-- Transaction rules: threshold rules -> signals, score
    `-- Advice builder: risk level + signals -> next steps
         |
@@ -232,15 +232,15 @@ Base URL `http://localhost:8000`. JSON. CORS allows `http://localhost:5173` and 
 // response
 {
   "risk_label": "High",
-  "score": 88,
+  "score": 92,
   "scam_type": "Fake KYC",
   "rule_score": 90,
   "ml_probability": 0.93,
-  "breakdown": { "rule_weight": 0.6, "ml_weight": 0.4, "safety_floor_applied": false },
+  "breakdown": { "rule_weight": 0.4, "ml_weight": 0.6, "safety_floor_applied": false },
   "signals": [
     { "id": "suspicious_link", "title": "Shortened link", "detail": "Shortened links hide the real destination.", "weight": 25, "matched": ["bit.ly/sbi-kyc"], "tip": "Banks do not send shortened links for KYC." }
   ],
-  "highlights": [ { "start": 52, "end": 66, "signal_id": "suspicious_link" } ],
+  "highlights": [ { "start": 48, "end": 62, "signal_id": "suspicious_link" } ],
   "advice": ["Do not click the link.", "Never share OTP, PIN or CVV.", "Report at cybercrime.gov.in or call 1930."]
 }
 ```

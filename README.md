@@ -33,6 +33,8 @@ python -m pip install -r requirements.txt
 python -m uvicorn backend.app.main:app --reload --port 8000
 ```
 
+To use the ML model, train it once first: `python -m backend.app.ml.train --all` (writes `backend/app/ml/model.joblib`, git-ignored). Without it the API still runs, rule-only, and `/api/health` reports `"model_loaded": false`.
+
 Check it: http://localhost:8000/api/health (interactive docs: http://localhost:8000/docs)
 
 Endpoints (contract: [PRD section 8](docs/PRD.md)):
