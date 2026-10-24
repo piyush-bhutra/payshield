@@ -266,6 +266,14 @@ export const App: React.FC = () => {
 
         {/* Results Area */}
         <div ref={resultRef} className="w-full max-w-4xl mx-auto mb-10">
+          {/* Always-present live region so screen readers announce each new result */}
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {isAnalyzing
+              ? "Analyzing…"
+              : analysisResult && analysisResult.kind === activeTab
+                ? `${analysisResult.risk_label} risk, score ${analysisResult.score} out of 100.${analysisResult.scam_type && analysisResult.risk_label !== "Low" ? ` Likely ${analysisResult.scam_type}.` : ""}`
+                : ""}
+          </p>
           {/* Only show the result that belongs to the active tab */}
           {analysisResult && analysisResult.kind === activeTab && (
             <AnalysisResult
